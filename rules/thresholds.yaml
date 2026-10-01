@@ -1,0 +1,38 @@
+# 阈值配置（v1.6.0）
+# 浓度分级 / 密度参数 / 质量控制阈值
+
+# ── 浓度分级 ──
+concentration:
+  mild_max: 0.3
+  moderate_max: 0.6
+  severe_max: 1.0
+  fatal_min: 1.0
+
+# ── 密度参数 ──
+density:
+  window_chars: 200          # 密度计算窗口（字符数）
+  single_occurrence_multiplier: 0.3
+  threshold_met_multiplier: 1.0
+  monotone_threshold: 10     # 句长方差 < 10 为单调
+  monotone_multiplier: 1.5
+  protected_coverage_factor: 0.5  # 保护区覆盖 > 30% 后乘 0.5
+
+# ── 质量控制 ──
+quality:
+  max_iterations: 3
+  hard_criteria:
+    no_fabrication: true     # 无编造
+    alignment: true          # 与原文对齐
+    fidelity: true           # 信息保真
+    no_new_ai_taste: true    # 无新引入AI味
+  soft_criteria:
+    - perspective_consistency
+    - causal_chain
+    - rhythm_variation
+    - ending_quality
+    - personal_voice
+
+# ── 检测 ──
+detection:
+  quick_scan_threshold: 5    # 关键词命中 ≥ 5 进入全量诊断
+  default_genre: "wechat"    # 未识别体裁时的默认值

@@ -1,0 +1,62 @@
+# 体裁配置 —— 不同内容类型的处理标准和权重调整
+
+genres:
+
+  - id: tweet
+    label_cn: "个人随笔/推文/短视频文案"
+    ai_sensitivity: "high"
+    processing:
+      allow_imperfection: true
+      allow_tangent: true
+      allow_emotional: true
+      sentence_rhythm_check: false  # 句式整齐不适用
+    weight_adjustments:
+      dimension_4: 0.3     # 句式整齐权重降低
+      dimension_7: 0.5     # 过度拔高权重降低
+
+  - id: wechat
+    label_cn: "公众号/专栏文章"
+    ai_sensitivity: "medium"
+    processing:
+      allow_imperfection: false
+      allow_tangent: false
+      allow_emotional: true
+      sentence_rhythm_check: true
+    weight_adjustments: {}
+
+  - id: academic
+    label_cn: "学术/正式文体"
+    ai_sensitivity: "low"
+    processing:
+      allow_imperfection: false
+      allow_tangent: false
+      allow_emotional: false
+      sentence_rhythm_check: true
+    weight_adjustments:
+      dimension_6: 0.5     # 语气权威是学术要求，权重降低
+      dimension_10: 1.5    # 翻译腔在学术中更突出
+      dimension_2: 0.5     # 概括语言在学术中可接受
+
+  - id: business
+    label_cn: "商业报告/工作文档"
+    ai_sensitivity: "low"
+    processing:
+      allow_imperfection: false
+      allow_tangent: false
+      allow_emotional: false
+      sentence_rhythm_check: false
+    weight_adjustments:
+      dimension_1: 0.5     # 结构对称在工作文档中可接受
+      dimension_5: 0.5     # 缺乏细节不一定适用
+
+  - id: marketing
+    label_cn: "营销文案"
+    ai_sensitivity: "high"
+    processing:
+      allow_imperfection: true
+      allow_tangent: false
+      allow_emotional: true
+      sentence_rhythm_check: true
+    weight_adjustments:
+      dimension_7: 0.5     # 营销中的拔高是常规
+      dimension_8: 0.5     # 否定式煽情在营销中常见

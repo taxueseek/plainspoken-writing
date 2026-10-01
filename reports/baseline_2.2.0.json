@@ -1,0 +1,209 @@
+{
+  "version": "2.2.0",
+  "generated_at": "2026-10-01T21:33:06.810712",
+  "corpus_stats": {
+    "total": 130,
+    "human": 50,
+    "ai": 50,
+    "mixed": 30
+  },
+  "unit_tests": {
+    "tested": 23,
+    "passed": 23,
+    "failed": 0,
+    "pass_rate": 100.0,
+    "details": [
+      {
+        "dim_id": 1,
+        "name": "结构对称",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 2,
+        "name": "概括语言多",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 3,
+        "name": "情绪词空洞",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 4,
+        "name": "句式整齐",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 5,
+        "name": "缺乏细节",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 6,
+        "name": "语气权威",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 7,
+        "name": "过度拔高",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 8,
+        "name": "否定式煽情",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 9,
+        "name": "虚假范围",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 10,
+        "name": "翻译腔",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 11,
+        "name": "平台套路",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 13,
+        "name": "格式型痕迹",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 14,
+        "name": "交流型痕迹",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 15,
+        "name": "口水话修辞",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 16,
+        "name": "套话修饰",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 18,
+        "name": "伪逻辑连接",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 19,
+        "name": "数字伪造",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 20,
+        "name": "堵住所有反驳",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 21,
+        "name": "概念命名仪式",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 22,
+        "name": "身体替代论证",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 23,
+        "name": "深刻过拟合",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 24,
+        "name": "同义词刻意替换",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      },
+      {
+        "dim_id": 25,
+        "name": "公式化结构（总结/写在最后）",
+        "status": "PASS",
+        "tp": true,
+        "fp": false
+      }
+    ]
+  },
+  "corpus_metrics": {
+    "human": {
+      "avg_concentration": 0.002,
+      "min": 0.0,
+      "max": 0.108,
+      "above_0_3": 0,
+      "above_0_6": 0
+    },
+    "ai": {
+      "avg_concentration": 0.599,
+      "min": 0.06,
+      "max": 0.678,
+      "above_0_3": 47,
+      "above_0_6": 35
+    },
+    "mixed": {
+      "avg_concentration": 0.273,
+      "min": 0.0,
+      "max": 0.3,
+      "above_0_3": 0,
+      "above_0_6": 0
+    }
+  },
+  "differentiation": {
+    "human_avg": 0.002,
+    "ai_avg": 0.599,
+    "diff": 0.597,
+    "target": 0.3,
+    "passed": true
+  }
+}

@@ -1,0 +1,467 @@
+# AI 味检测模式配置（v1.6.0）
+# 19 维图谱 + 权重 + 信号列表 + 修法
+
+dimensions:
+
+  # ── 根因型（权重 1.5） ──
+
+  - id: 6
+    name: authoritative_tone
+    label_cn: "语气权威"
+    weight: 1.5
+    is_root_cause: true
+    keywords:
+      - "毫无疑问"
+      - "不言而喻"
+      - "显而易见"
+      - "无需质疑"
+      - "必然"
+      - "一定是"
+      - "100%"
+      - "百分百确定"
+    patterns:
+      - "整篇没有一处「我不确定」"
+      - "语气像教科书或说明书"
+      - "从不犹豫，从不反悔"
+    density_threshold: 3
+    fix: "加入一处真实的不确定、偏见或犹豫"
+    triggers_then: [1, 4, 12]  # 触发后级联影响的维度
+
+  - id: 16
+    name: cliche_modifiers
+    label_cn: "套话修饰"
+    weight: 1.5
+    is_root_cause: true
+    keywords:
+      - "在当今"
+      - "随着.*的发展"
+      - "至关重要"
+      - "不可或缺"
+      - "显著提升"
+      - "在.*背景下"
+      - "众所周知"
+      - "不可忽视"
+    patterns:
+      - "程度虚词密集"
+      - "万能句式（在当今…/随着…）"
+      - "正确废话"
+    density_threshold: 2
+    fix: "删套话直接说事实，或用数据替代"
+    triggers_then: [2, 3, 15]
+
+  - id: 10
+    name: translation_ese
+    label_cn: "翻译腔"
+    weight: 1.5
+    is_root_cause: true
+    keywords:
+      - "被证明"
+      - "被认为"
+      - "被广泛应用于"
+      - "这一现象可以被解释为"
+      - "值得注意的是"
+      - "可以被视为"
+    patterns:
+      - "英文句骨残留"
+      - "被动语态过多"
+      - "中英混杂"
+      - "列表反射（一说问题就列1/2/3/4/5）"
+    density_threshold: 2
+    fix: "被动改主动，短句化"
+    triggers_then: [12, 9]
+
+  # ── 并发型（权重 1.0） ──
+
+  - id: 1
+    name: structure_symmetry
+    label_cn: "结构对称"
+    weight: 1.0
+    keywords:
+      - "首先"
+      - "其次"
+      - "此外"
+      - "最后"
+      - "第一"
+      - "第二"
+      - "第三"
+      - "一方面"
+      - "另一方面"
+    patterns:
+      - "三段式排比"
+      - "段落长度高度一致"
+      - "每段都有总结句"
+      - "小标题全部对仗工整"
+    density_threshold: 2
+    fix: "打破对称，长短不一"
+
+  - id: 2
+    name: generalization_overload
+    label_cn: "概括语言多"
+    weight: 1.0
+    keywords:
+      - "总的来说"
+      - "综上所述"
+      - "不难看出"
+      - "显而易见"
+      - "从某种意义上说"
+      - "在很多情况下"
+      - "大多数"
+    patterns:
+      - "大量概括词"
+      - "用抽象词替代具体场景"
+      - "结论比细节多"
+    density_threshold: 2
+    fix: "用具体数字/人物替代抽象概括"
+
+  - id: 3
+    name: empty_emotion
+    label_cn: "情绪词空洞"
+    weight: 1.0
+    keywords:
+      - "令人深思"
+      - "发人深省"
+      - "意义深远"
+      - "非常重要"
+      - "令人振奋"
+      - "令人感动"
+      - "引人深思"
+    patterns:
+      - "说了情绪但没说细节"
+      - "空洞的情感升华"
+    density_threshold: 2
+    fix: "删情绪词，换成引发情绪的具体细节"
+
+  - id: 4
+    name: uniform_sentence_pattern
+    label_cn: "句式整齐"
+    weight: 1.0
+    keywords:
+      - "不仅"
+      - "而且"
+      - "既"
+      - "又"
+      - "实现"
+      - "推动"
+      - "促进"
+      - "赋能"
+    patterns:
+      - "大量「不仅…而且…」「既…又…」"
+      - "句子长度高度一致"
+      - "动词过于规范"
+    density_threshold: 3
+    fix: "长句后接极短句，换口语"
+
+  - id: 12
+    name: rlhf_template_residue
+    label_cn: "RLHF模板化"
+    weight: 1.0
+    keywords: []
+    patterns:
+      - "虚词密度过高（的/了/着/被）"
+      - "句子长度方差过低"
+      - "完美无缺的流畅感"
+      - "没有停顿没有磕巴"
+    density_threshold: 3
+    fix: "故意打断流畅，加入个人标记"
+
+  - id: 14
+    name: conversational_ai_traces
+    label_cn: "交流型痕迹"
+    weight: 1.0
+    keywords:
+      - "很荣幸为您"
+      - "感谢您的耐心"
+      - "仅代表个人观点"
+      - "不构成投资建议"
+      - "让我们共同努力"
+      - "携手共创"
+      - "值得一提的是"
+      - "值得注意"
+      - "在一定程度"
+      - "未来可期"
+      - "前景广阔"
+    patterns:
+      - "谄媚语气"
+      - "免责声明"
+      - "协作式口号"
+      - "填充短语"
+      - "过度限定"
+    density_threshold: 2
+    fix: "平等语气，直接说内容"
+
+  # ── 独立信号（权重 0.8） ──
+
+  - id: 5
+    name: lack_of_detail
+    label_cn: "缺乏细节"
+    weight: 0.8
+    is_independent: true
+    keywords:
+      - "某个用户"
+      - "某公司"
+      - "研究表明"
+      - "大部分人"
+      - "很多人"
+      - "在某些时候"
+    patterns:
+      - "经历描述没有时间/地点/具体人物"
+      - "举例子不用真实案例"
+      - "说「研究表明」但不说哪项研究"
+    density_threshold: 2
+    fix: "加上时间、数字、具体人物"
+
+  - id: 7
+    name: over_amplification
+    label_cn: "过度拔高"
+    weight: 0.8
+    is_independent: true
+    keywords:
+      - "历史性时刻"
+      - "高光时刻"
+      - "决定性瞬间"
+      - "分水岭"
+      - "里程碑"
+      - "转折点"
+      - "划时代"
+      - "史诗级"
+    patterns:
+      - "用宏大词汇描述日常小事"
+      - "习惯性使用历史性/高光/决定性"
+    density_threshold: 2
+    fix: "保留事物本来大小"
+
+  - id: 8
+    name: negative_emotionalism
+    label_cn: "否定式煽情"
+    weight: 0.8
+    is_independent: true
+    keywords:
+      - "不仅仅"
+      - "不只是"
+      - "不是.*而是"
+      - "更是一种"
+      - "更是一份"
+    patterns:
+      - "用「不是…而是…」强行升华"
+      - "后半不够具体"
+    density_threshold: 2
+    fix: "直接说事实，删「不仅仅」"
+
+  - id: 9
+    name: false_scope
+    label_cn: "虚假范围"
+    weight: 0.8
+    is_independent: true
+    keywords:
+      - "从.*到"
+      - "涵盖了"
+      - "多个领域"
+      - "全方位"
+      - "全链路"
+      - "一站式"
+    patterns:
+      - "X和Y没有实际关联硬凑"
+      - "用范围感制造虚假广度"
+    density_threshold: 2
+    fix: "删范围词，直接说做了什么"
+
+  - id: 11
+    name: platform_cliche
+    label_cn: "平台套路"
+    weight: 0.8
+    is_independent: true
+    keywords:
+      - "姐妹们谁懂"
+      - "绝绝子"
+      - "挖到宝了"
+      - "家人们"
+      - "最后一条最重要"
+      - "点赞收藏"
+      - "你品你细品"
+      - "泻药"
+      - "人在美国"
+    patterns:
+      - "小红书体/抖音体/知乎体全套照搬"
+    density_threshold: 2
+    fix: "像那个人，但不像模板"
+
+  - id: 15
+    name: flowery_rhetoric
+    label_cn: "口水话修辞"
+    weight: 0.8
+    is_independent: true
+    keywords:
+      - "如流星划过"
+      - "如沐春风"
+      - "醍醐灌顶"
+      - "时不我待"
+      - "只争朝夕"
+      - "温暖了时光"
+      - "惊艳了岁月"
+    patterns:
+      - "比喻连篇"
+      - "空洞号召"
+      - "形容词堆砌"
+    density_threshold: 2
+    fix: "用数字替代比喻，删套话"
+
+  - id: 17
+    name: perspective_shift
+    label_cn: "视角混乱"
+    weight: 0.8
+    is_independent: true
+    keywords:
+      - "我"
+      - "我们"
+      - "你"
+      - "大家"
+    patterns:
+      - "人称在「我」「我们」「你」之间漂移"
+      - "同一段话里视角不统一"
+    density_threshold: 3
+    fix: "确定稳定视角，全篇保持"
+
+  - id: 18
+    name: false_causal_link
+    label_cn: "伪逻辑连接"
+    weight: 0.8
+    is_independent: true
+    keywords:
+      - "因此"
+      - "所以"
+      - "从而"
+      - "故而"
+      - "然而"
+      - "但是"
+      - "由此可见"
+    patterns:
+      - "「因此」「所以」连接无因果关系的分句"
+      - "「然而」连接无转折关系的分句"
+    density_threshold: 3
+    fix: "检查因果是否成立，删假因果词"
+
+  - id: 19
+    name: fake_numbers
+    label_cn: "数字伪造"
+    weight: 0.8
+    is_independent: true
+    keywords: []
+    patterns:
+      - "精确到小数但无来源"
+      - "无上下文的对比数字"
+      - "编造样本量"
+    density_threshold: 1
+    fix: "有来源保留，无来源改模糊"
+
+  # ── 格式型（权重 0.3） ──
+
+  - id: 13
+    name: formatting_ai_traces
+    label_cn: "格式型痕迹"
+    weight: 0.3
+    keywords:
+      - "——"
+    patterns:
+      - "破折号过度（每段都有）"
+      - "粗体过度"
+      - "弯引号"
+      - "表情符号"
+    density_threshold: 3
+    fix: "克制格式，用直角引号"
+
+  # ── dbs 融合维度（意图层特征, v1.7.0 新增）──
+
+  - id: 20
+    name: block_all_objections
+    label_cn: "堵住所有反驳"
+    weight: 0.8
+    is_independent: true
+    keywords:
+      - "有人可能会说"
+      - "有人会说"
+      - "可能有人会质疑"
+      - "也许有人会问"
+      - "你可能会觉得"
+    patterns:
+      - "假设性反驳连篇"
+      - "编造读者质疑来反驳"
+    density_threshold: 3
+    fix: "只留真实被问过的反驳"
+  - id: 21
+    name: concept_naming_ritual
+    label_cn: "概念命名仪式"
+    weight: 0.8
+    is_independent: true
+    keywords:
+      - "这就是"
+      - "我称之为"
+      - "这就叫"
+      - "我把这叫做"
+      - "可以称之为"
+      - "本质上就是"
+    patterns:
+      - "给概念起名字超过2次"
+      - "命名仪式重复"
+    density_threshold: 2
+    fix: "只留最精准的那个名字"
+  - id: 22
+    name: body_substitute_argument
+    label_cn: "身体替代论证"
+    weight: 0.8
+    is_independent: true
+    keywords:
+      - "身体知道答案"
+      - "直觉告诉你"
+      - "你的身体比你更"
+      - "内心会告诉你"
+      - "相信你的直觉"
+    patterns:
+      - "用身体感受替代逻辑推理"
+      - "逻辑链断裂时用身体收束"
+    density_threshold: 2
+    fix: "直接说是否讲不下去，比编身体答案真实"
+  - id: 23
+    name: deepness_overfit
+    label_cn: "深刻过拟合"
+    weight: 0.8
+    is_independent: true
+    keywords:
+      - "本质上"
+      - "归根结底"
+      - "说到底"
+      - "往深了说"
+      - "从本质上讲"
+      - "追根溯源"
+    patterns:
+      - "把实操问题升维到哲学"
+      - "升维词后接超大命题"
+    density_threshold: 3
+    fix: "删掉升维词，看文章是否已经完整"
+  - id: 24
+    name: synonym_forced_swap
+    label_cn: "同义词刻意替换"
+    weight: 0.8
+    is_independent: true
+    keywords: []
+    patterns:
+      - "同一概念在短段落内用不同词替换"
+    density_threshold: 3
+    fix: "选定一个最准的词，重复用"
+
+  # ── 模板化结尾（内置表有、yaml 曾缺，补回以对齐 25 维）──
+
+  - id: 25
+    name: formulaic_structure
+    label_cn: "模板化结尾"
+    weight: 0.8
+    is_independent: true
+    keywords:
+      - "总结"
+      - "写在最后"
+      - "希望对你有帮助"
+      - "希望对各位"
+    patterns:
+      - "结尾套话"
+      - "祝福式收尾"
+    density_threshold: 2
+    fix: "结尾停在具体行动或余味，不写祝福套话"
