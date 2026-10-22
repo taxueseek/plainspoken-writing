@@ -125,12 +125,18 @@ class Validator:
         result.soft_criteria["personal_voice"] = self._check_voice(
             rewritten
         )
+        result.soft_criteria["binary_contrast"] = self._check_binary_contrast(
+            rewritten
+        )
+        result.soft_criteria["commitment_fidelity"] = self._check_commitment_fidelity(
+            original, rewritten
+        )
 
         soft_pass_count = sum(1 for v in result.soft_criteria.values() if v >= 0.6)
 
-        # 评级
+        # 评级：7项软指标过半数（>=4项）给A，否则给B
         if hard_pass:
-            if soft_pass_count >= 3:
+            if soft_pass_count >= 4:
                 result.quality_grade = QualityGrade.A
             else:
                 result.quality_grade = QualityGrade.B
@@ -227,17 +233,21 @@ class Validator:
         return 0.4
 
     def _check_ending(self, text: str) -> float:
-        """检查结尾质量（0-1）"""
+        """检查结尾质量与留白（0-1）"""
         # 取最后一句/段
         segments = re.split(r'\n\n+', text.strip())
         ending = segments[-1] if segments else ""
-        # 禁止的口号
-        forbidden_endings = ['让我们','未来可期','携手共进','共同努力','希望对你有帮助','写在最后']
+        # 禁止的口号与空洞伪温暖结尾
+        forbidden_endings = [
+            '让我们', '未来可期', '携手共进', '共同努力',
+            '希望对你有帮助', '希望对您有所启发', '写在最后',
+            '未来已来', '愿你', '愿我们', '拭目以待',
+        ]
         for f in forbidden_endings:
             if f in ending:
                 return 0.2
-        # 好的结尾特征
-        good_signals = ['去试试','试试看','就这样','好了']
+        # 好的结尾特征：停在具体动作、真实场景或自然留白
+        good_signals = ['去试试', '试试看', '就这样', '好了', '告诉我']
         for g in good_signals:
             if g in ending:
                 return 1.0
@@ -246,7 +256,7 @@ class Validator:
     def _check_voice(self, text: str) -> float:
         """检查个人声音保留（0-1）"""
         signals = 0
-        if re.search(r'(说实话|老实说|讲真|说实话)', text):
+        if re.search(r'(说实话|老实说|讲真)', text):
             signals += 1
         if re.search(r'(我觉得|我认为|我判断|我坚持)', text):
             signals += 1
@@ -255,3 +265,41 @@ class Validator:
         if re.search(r'(懵了|傻了|慌了|麻了|手抖)', text):
             signals += 1
         return min(1.0, signals * 0.3)
+
+    def _check_binary_contrast(self, text: str) -> float:
+        """检查二元对立/假反共识修辞（0-1）。
+
+        AI 倾向于密集使用「不是...而是...」「不在于...而在于...」「与其说...不如说...」
+        制造虚假的认知高差。出现 0 次 1.0，1 次 0.8，>=2 次 0.4。
+        """
+        contrast_patterns = [
+            r'不是.{1,20}而是',
+            r'不仅.{1,20}更是',
+            r'不在于.{1,20}而在于',
+            r'与其说.{1,20}不如说',
+            r'真正的.{1,15}是',
+        ]
+        count = 0
+        for pat in contrast_patterns:
+            count += len(re.findall(pat, text))
+        if count == 0:
+            return 1.0
+        if count == 1:
+            return 0.8
+        return 0.4
+
+    def _check_commitment_fidelity(self, original: str, rewritten: str) -> float:
+        """检查承诺强度保真度（0-1）。
+
+        改写不能把可能性或弱判断擅自升级为绝对肯定保证。
+        例如原文为「可能」「也许」「大概」「尝试」，改写后却变成了「必定」「必然」「确保」「100%」。
+        """
+        weak_markers = ('可能', '也许', '大概', '尝试', '试图', '似乎')
+        strong_markers = ('必然', '必定', '确保', '必定会', '100%', '绝对')
+        orig_has_weak = any(w in original for w in weak_markers)
+        orig_has_strong = any(s in original for s in strong_markers)
+        rewritten_has_strong = any(s in rewritten for s in strong_markers)
+
+        if orig_has_weak and not orig_has_strong and rewritten_has_strong:
+            return 0.4
+        return 1.0

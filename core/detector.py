@@ -33,7 +33,7 @@ from .models import (
 _BUILTIN_DIMENSIONS: list[dict] = [
     # 根因型
     {"id": 6,  "name": "authoritative_tone",      "keywords": ["毫无疑问","不言而喻","显而易见","无需质疑","必然","一定是","100%","百分百确定"], "weight": 1.5, "is_root_cause": True,  "density": 3},
-    {"id": 16, "name": "cliche_modifiers",         "keywords": ["在当今","随着.*的发展","至关重要","不可或缺","显著提升","在.*背景下","众所周知","不可忽视","显而易见的是","毋庸置疑的是","毋庸讳言","毋庸置疑"], "weight": 1.5, "is_root_cause": True,  "density": 2},
+    {"id": 16, "name": "cliche_modifiers",         "keywords": ["在当今","随着.*的发展","至关重要","不可或缺","显著提升","在.*背景下","众所周知","不可忽视","显而易见的是","毋庸置疑的是","毋庸讳言","毋庸置疑","全面赋能","多维发力","多措并举","系统性重塑"], "weight": 1.5, "is_root_cause": True,  "density": 2},
     {"id": 10, "name": "translation_ese",          "keywords": ["被证明","被认为","被广泛应用于","这一现象可以被解释为","值得注意的是","可以被视为"], "weight": 1.5, "is_root_cause": True,  "density": 2},
     # 并发型
     {"id": 1,  "name": "structure_symmetry",       "keywords": ["首先","其次","此外","最后","第一","第二","第三","一方面","另一方面"],                    "weight": 1.0, "is_root_cause": False, "density": 2},
@@ -45,7 +45,7 @@ _BUILTIN_DIMENSIONS: list[dict] = [
     # 独立型
     {"id": 5,  "name": "lack_of_detail",           "keywords": ["某个用户","某公司","研究表明","大部分人","很多人","在某些时候"],                 "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
     {"id": 7,  "name": "over_amplification",       "keywords": ["历史性时刻","高光时刻","决定性瞬间","分水岭","里程碑","转折点","划时代","史诗级"], "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
-    {"id": 8,  "name": "negative_emotionalism",    "keywords": ["不仅仅","不只是","不是.*而是","更是一种","更是一份","不仅是.*更是","不单单是"], "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
+    {"id": 8,  "name": "negative_emotionalism",    "keywords": ["不仅仅","不只是","不是.*而是","更是一种","更是一份","不仅是.*更是","不单单是","不在于.*而在于","真正的.*是","与其说.*不如说"], "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
     {"id": 9,  "name": "false_scope",              "keywords": ["从.*到","涵盖了","多个领域","全方位","全链路","一站式"],                         "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
     {"id": 11, "name": "platform_cliche",          "keywords": ["姐妹们谁懂","绝绝子","挖到宝了","家人们","最后一条最重要","点赞收藏","你品你细品","泻药","人在美国"],               "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
     {"id": 15, "name": "flowery_rhetoric",         "keywords": ["如流星划过","如沐春风","醍醐灌顶","时不我待","只争朝夕","温暖了时光","惊艳了岁月"],                        "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
@@ -59,7 +59,7 @@ _BUILTIN_DIMENSIONS: list[dict] = [
     {"id": 23, "name": "deepness_overfit",         "keywords": ["本质上","归根结底","说到底","往深了说","从本质上讲","追根溯源","从底层逻辑来看","底层逻辑","与其说是.*不如说是","这绝非偶然","这背后折射出"], "weight": 0.8, "is_root_cause": False, "density": 3, "independent": True},
     {"id": 24, "name": "synonym_forced_swap",      "keywords": [],                                                                                "weight": 0.8, "is_root_cause": False, "density": 3, "independent": True},
     # ── taxue 融合维度（结构型AI痕迹 + 纯度, v1.7.0 新增）──
-    {"id": 25, "name": "formulaic_structure",       "keywords": ["总结","写在最后","希望对你有帮助","希望对各位","一句话总结","路虽远.*行则将至","让我们拭目以待"], "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
+    {"id": 25, "name": "formulaic_structure",       "keywords": ["总结","写在最后","希望对你有帮助","希望对各位","一句话总结","路虽远.*行则将至","让我们拭目以待","未来已来","让我们共同期待"], "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
     # 格式型
     {"id": 13, "name": "formatting_ai_traces",     "keywords": ["——"],                                                                           "weight": 0.3, "is_root_cause": False, "density": 3},
 ]
