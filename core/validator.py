@@ -24,32 +24,50 @@ _CN_DIGITS = {'零': 0, '一': 1, '二': 2, '两': 2, '三': 3, '四': 4,
               '五': 5, '六': 6, '七': 7, '八': 8, '九': 9}
 
 
+def _parse_cn_section(section: str) -> int:
+    total = 0
+    num = 0
+    for ch in section:
+        if ch in _CN_DIGITS:
+            num = _CN_DIGITS[ch]
+        elif ch == '十':
+            total += (num or 1) * 10
+            num = 0
+        elif ch == '百':
+            total += (num or 1) * 100
+            num = 0
+        elif ch == '千':
+            total += (num or 1) * 1000
+            num = 0
+    return total + num
+
+
+def _parse_cn_number(s: str) -> int:
+    if s in _CN_DIGITS:
+        return _CN_DIGITS[s]
+    if '亿' in s:
+        parts = s.split('亿', 1)
+        return _parse_cn_number(parts[0]) * 100000000 + (_parse_cn_number(parts[1]) if parts[1] else 0)
+    if '万' in s:
+        parts = s.split('万', 1)
+        return _parse_cn_section(parts[0]) * 10000 + (_parse_cn_section(parts[1]) if parts[1] else 0)
+    return _parse_cn_section(s)
+
+
 def _cn_numbers_in(text: str) -> set[str]:
     """提取文本中的中文数字（含复合写法），返回对应的阿拉伯数字字符串集合。
 
-    「三次」→ {'3'}、「三百」→ {'300'}，让「三次」改写成「3次」不算新数字。
+    「三次」→ {'3'}、「三百」→ {'300'}、「一万两千」→ {'12000'}，让中文数字改写成阿拉伯数字不算新数字。
     """
     found = set()
-    for m in re.finditer(r'[一二两三四五六七八九十百千万零]+', text):
+    for m in re.finditer(r'[一二两三四五六七八九十百千万亿零]+', text):
         s = m.group()
-        if s in _CN_DIGITS:
-            found.add(str(_CN_DIGITS[s]))
+        try:
+            val = _parse_cn_number(s)
+            if val > 0:
+                found.add(str(val))
+        except (ValueError, KeyError):
             continue
-        total = 0
-        num = 0
-        for ch in s:
-            if ch in _CN_DIGITS:
-                num = _CN_DIGITS[ch]
-            elif ch == '十':
-                total += (num or 1) * 10
-                num = 0
-            elif ch == '百':
-                total += (num or 1) * 100
-                num = 0
-            elif ch == '千':
-                total += (num or 1) * 1000
-                num = 0
-        found.add(str(total + num))
     return found
 
 

@@ -8,13 +8,13 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from core import __version__
-from tests.test_detector import test_all_dimensions, test_corpus_analysis
+from tests.test_detector import run_all_dimensions, run_corpus_analysis
 
 
 def generate_report() -> dict:
     """生成完整基线报告"""
-    dim_results = test_all_dimensions()
-    corpus_results = test_corpus_analysis()
+    dim_results = run_all_dimensions()
+    corpus_results = run_corpus_analysis()
 
     human_avg = corpus_results.get("human", {}).get("avg_concentration", 0)
     ai_avg = corpus_results.get("ai", {}).get("avg_concentration", 0)

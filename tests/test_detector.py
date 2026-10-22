@@ -149,8 +149,8 @@ _DIMENSION_TESTS = [
 
 # ── 测试执行 ──────────────────────────────────────
 
-def test_all_dimensions() -> list[dict]:
-    """运行全部 25 维测试（含 dbs + taxue 融合特征）"""
+def run_all_dimensions() -> dict:
+    """运行全部 25 维测试（含 dbs + taxue 融合特征），返回详细统计结果。"""
     results = []
     passed = 0
     failed = 0
@@ -176,8 +176,14 @@ def test_all_dimensions() -> list[dict]:
     }
 
 
-def test_corpus_analysis():
-    """在全量语料上运行检测，统计分布"""
+def test_all_dimensions():
+    """单元测试：验证全部 25 维检测准确性。"""
+    res = run_all_dimensions()
+    assert res["pass_rate"] == 100.0, f"通过率应为 100%，实际为 {res['pass_rate']}%"
+
+
+def run_corpus_analysis() -> dict:
+    """在全量语料上运行检测，统计分布，返回统计结果。"""
     all_results = {}
     for category in ["human", "ai", "mixed"]:
         texts = _load_corpus(category)
@@ -200,10 +206,17 @@ def test_corpus_analysis():
     return all_results
 
 
+def test_corpus_analysis():
+    """单元测试：验证语料库检测统计与基线。"""
+    res = run_corpus_analysis()
+    assert res["human"]["avg_concentration"] < 0.1, "人工语料平均浓度应极低"
+    assert res["ai"]["avg_concentration"] > 0.4, "AI 语料平均浓度应显著偏高"
+
+
 def print_report():
     """打印完整测试报告"""
-    dim_results = test_all_dimensions()
-    corpus_results = test_corpus_analysis()
+    dim_results = run_all_dimensions()
+    corpus_results = run_corpus_analysis()
 
     print("=" * 60)
     print("  Say It Human — v1.6.0 检测基线报告")

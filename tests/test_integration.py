@@ -93,8 +93,6 @@ def test_full_pipeline():
     assert len(top) <= 3, "rank_dimensions 应返回最多 3 个"
     assert all(t.triggered for t in top), "排名结果应都是触发的维度"
 
-    return True
-
 
 def test_content_quality():
     """内容质量前置诊断测试"""
