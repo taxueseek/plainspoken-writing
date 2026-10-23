@@ -1,10 +1,10 @@
 ---
 name: plainspoken-writing
-version: "1.9.0"
+version: "1.10.0"
 description: |
   【L1 声音真实度】白描 · AI 味检测与改写——只处理「像不像真人」。25 种 AI 味模式识别，根据严重程度选策略。默认只诊断不改，改写要用户确认。三种改写方式：自动替换、追问驱动、混合。可接收 voice-dissolver 声音清单作为保护区。
   触发：AI味、像机器写的、太正式、读起来假、去AI味、AI感太重、像ChatGPT写的、太模板化、语气太标准、缺乏个性、AI腔、读起来没温度、句式太整齐、总结陈词、翻译腔、不说人话、套路化、白描、直陈白描、Plainspoken。
-  Not for：内容质量不够但没AI味（→ L0 chinese-write-checker）、结构冗余/废话多（→ L2 editor-revisor）、找不到自己声音（→ voice-dissolver）、排版/标点/标题（→ L3 packaging-workshop）。
+  Not for：内容质量不够但没AI味（→ L0 chinese-write-checker）、结构冗余/废话多（→ L2 editor-revisor）、找不到自己声音（→ voice-dissolver）、排版/标点/标题（→ L3 packaging-workshop）、事实/数据/引文真假（→ L0 fact-review）。
 ---
 
 # 白描：AI 味检测与消除
@@ -280,6 +280,10 @@ AI味多重，策略就有多猛：
 偏见：{有/缺——补的话扎在原文已有线索上}
 情绪：{有/缺——补的话展开到具体瞬间}
 立场：{有/缺——补的话让它有来有回的过程}
+
+【读者检验】
+会让人停的句子：{哪一句，为什么——有细节/有情绪/有反常识}
+会让人跳的句子：{哪一句，为什么——套话/绕/没信息}
 
 【改写版本】
 {直接输出改写后的完整文本}

@@ -50,7 +50,7 @@ npx -y skills add taxueseek/plainspoken-writing -g --all
 
 ## 工具箱
 
-六个核心技能 + 三个子技能，覆盖写作全流程，按 **MECE 分层**（内容实质 → 声音真实度 → 结构经济性 → 表面呈现）无重叠路由。
+七个核心技能 + 三个子技能，覆盖写作全流程，按 **MECE 分层**（内容实质 → 声音真实度 → 结构经济性 → 表面呈现）无重叠路由。
 
 ### 核心技能
 
@@ -58,6 +58,7 @@ npx -y skills add taxueseek/plainspoken-writing -g --all
 |----|-------|--------|--------|
 | 跨层 | `voice-dissolver`（声音校准） | 写之前，先搞清「我想让读者感受到什么」。输出声音锚点卡，传给下游当保护区 | 不像我写的、找回自己的声音、文字里没有我 |
 | 跨层 | `plainspoken-core`（原理与正面目标） | 只问「AI 味从哪来、该往哪写」：重新定义、第一性原理、MECE 三层、四步打磨、直陈白描。不做检测，不做改写 | 为什么像AI、AI味的根源、去AI味方法论、写作原则、直陈白描 |
+| L0 | `fact-review`（事实核验） | 只问「说的是不是真的」：事实、数据、引文、论证、规范冲突。以资深评审身份查资料核实，每处写明依据与出处，查不到就说查不到。只出审稿报告，不改稿 | 事实核查、查证、审稿、引文是真的吗、数据对不对、有没有捏造 |
 | L0 | `chinese-write-checker`（内容体检） | 内容质量总入口。只问「有没有干货」：信息密度、逻辑链、立场清晰度。不改稿，只验收+路由 | 帮我看看写得怎么样、这篇能不能发、文章质量验收 |
 | L1 | `plainspoken-writing`（去 AI 味） | 只问「像不像真人」：25 维检测 + 浓度分级 + 改写。不处理结构，不检查内容质量 | AI味、像机器写的、太正式、读起来假、AI腔 |
 | L2 | `editor-revisor`（改稿手） | 只问「有没有废话」：删套话、砍程度虚词、打破虚假对仗、节奏调整 | 帮我改稿、废话太多、读起来不像我、润色 |
@@ -76,8 +77,8 @@ npx -y skills add taxueseek/plainspoken-writing -g --all
 ```
 plainspoken-core（跨层 原理层：AI 味从哪来、该往哪写）→ 喂给 plainspoken-writing / content-refiner
 
-voice-dissolver  →  chinese-write-checker  →  plainspoken-writing  →  editor-revisor  →  packaging-workshop
-  （跨层定声音）       （L0内容体检）             （L1去AI味）      （L2删废话）           （L3包装发布）
+voice-dissolver  →  fact-review  →  chinese-write-checker  →  plainspoken-writing  →  editor-revisor  →  packaging-workshop
+  （跨层定声音）      （L0事实核验）    （L0内容体检）             （L1去AI味）      （L2删废话）           （L3包装发布）
                        ↓
                   style-blade（L1.5 风格注入，可选）
                        ↓
@@ -88,6 +89,7 @@ voice-dissolver  →  chinese-write-checker  →  plainspoken-writing  →  edit
 
 **各层只问一类问题，互不重叠：**
 - 跨层（原理）：AI 味从哪来、该往哪写？（重新定义、第一性原理、正面目标）
+- L0：说的是不是真的？（事实、数据、引文、论证、规范）
 - L0：有没有干货？（信息密度、逻辑、立场）
 - L1：像不像真人？（AI味检测与消除）
 - L1.5：有没有态度/个性？（风格化注入，可选）
@@ -309,6 +311,8 @@ plainspoken-writing/
 │   │   ├── SKILL.md
 │   │   └── references/
 │   │       └── samples.md
+│   ├── fact-review/               # [L0] 事实核验
+│   │   └── SKILL.md
 │   ├── chinese-write-checker/     # [L0] 内容体检
 │   │   └── SKILL.md
 │   ├── plainspoken-writing/               # [L1] 去 AI 味
@@ -375,9 +379,11 @@ Plainspoken Writing 的方法论是完全开放的。你不需要安装整套 Sk
 
 ## 版本
 
-版本号以 `core/__init__.py` 的 `__version__` 为单一真源。当前 **v1.9.0**。项目、全部 Skill 与 DSH 插件统一使用 1.9.0。
+版本号以 `core/__init__.py` 的 `__version__` 为单一真源。当前 **v1.10.0**。项目、全部 Skill 与 DSH 插件统一使用 1.10.0。
 
 检测逻辑在 Python 引擎（`core/detector.py`、`core/concentration.py`、`core/validator.py`、`core/rewriter.py`），21 项单元测试通过，人工/AI 文本区分度 0.597（目标 > 0.3）。技能按文本属性分层，130 篇标注语料做回归。
+
+**v1.10.0**：新增 L0 事实核验技能 `fact-review`——以资深评审身份查事实、数据、引文、论证与规范冲突，只出审稿报告；`plainspoken-core` 补齐正向目标（精准状语、磕绊感与戛然而止）；`plainspoken-writing` 诊断报告加读者检验（哪句让人停、哪句让人跳）。
 
 **v1.9.0**：首个统一版本号（合并内部开发线 2.2–2.5）
 - 引擎：25 维检测、二元对立重复计数修复、中文数字万亿分节修复、mixed 边界召回恢复；万字 analyze 实测约 3.38ms → 2.52ms；

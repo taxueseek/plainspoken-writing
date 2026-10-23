@@ -1,11 +1,11 @@
 ---
 name: chinese-write-checker
-version: "1.9.0"
+version: "1.10.0"
 description: |
   中文内容质量验收工具，写作系列总入口（网关）。从编辑、读者、作者、平台四个视角对一篇中文稿件做全面体检（16 项），输出评分+问题清单+路由推荐。不改稿，只验收+路由。
   触发：帮我看看这篇写得怎么样、这篇有没有问题、检查一下这篇文章、这篇稿子合格吗、帮我审一遍、文章质量验收、中文写作诊断、这篇能不能发、稿子需要改什么、怎么改。
   EN: "review my Chinese article", "check this article quality", "Chinese writing diagnosis", "proofread this piece", "is this article good enough"。
-  Not for / 不适用：直接改写（→ plainspoken-writing / editor-revisor）、只改标题/排版/标点（→ packaging-workshop）、找不到自己声音（→ voice-dissolver）。
+  Not for / 不适用：直接改写（→ plainspoken-writing / editor-revisor）、只改标题/排版/标点（→ packaging-workshop）、找不到自己声音（→ voice-dissolver）、事实/数据/引文真假核实（→ L0 fact-review）。
 ---
 
 # chinese-write-checker：中文内容质量验收
@@ -33,6 +33,7 @@ description: |
 
 | 优先级 | 用户信号 | 做什么 |
 |--------|---------|--------|
+| 0 事实真假 | 有没有编、引文是真的吗、数据对不对、核实、审稿、查证 | 事实核验（fact-review） |
 | 1 看看质量 | 帮我看看、这篇怎么样、检查一下、诊断、合不合格、能不能发 | 体检（本技能） |
 | 2 找不到声音 | 不像我写的、找不到自己、声音没了、想搞清楚自己 | 理清声音 |
 | 3 读起来假 | 像机器写的、AI味、太模板、太正式、翻译腔、套路化 | 去味 |

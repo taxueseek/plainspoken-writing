@@ -1,6 +1,6 @@
 ---
 name: scene-fit
-version: "1.9.0"
+version: "1.10.0"
 description: |
   【L3.5 场景适配】发到哪，就按哪的规矩来。五种场景：技术文档、广告文案、PPT演示、社交媒体、Release Notes。不是改内容，是调整形式让它适合目标平台。
   触发：这篇适合发XX、帮我改成XX格式、技术文档规范、广告文案、写PPT、Release Notes、产品介绍、API文档、小红书/公众号/知乎/抖音/即刻。
