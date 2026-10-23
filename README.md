@@ -8,7 +8,7 @@
 
 给一段文字。它先告诉你哪里像机器写的。要不要改，你自己说。
 
-读者判断一段文字是不是 AI 写的，不在于用词够不够华丽，而在于读到上一句能不能猜到下一句。这套工具把那种可预测性拆开：25 维来源、浓度分级、默认只检测不改。Claude Code、Codex、Cursor 都能装。整套用，或者只拿走其中一层，都可以。
+读者判断一段文字是不是 AI 写的，不在于用词够不够华丽，而在于读到上一句能不能猜到下一句。这套工具把那种可预测性拆开：25 维来源、浓度分级、默认只检测不改。Claude Code、Codex、Cursor、DeepSeek Harness 都能装。整套用，或者只拿走其中一层，都可以。
 
 ---
 
@@ -385,6 +385,10 @@ Plainspoken Writing 的方法论是完全开放的。你不需要安装整套 Sk
 按 19 个来源维度分类，只研究你感兴趣的领域。比如只关注「翻译腔」或「RLHF 模板化」。
 
 ---
+
+## DSH 插件
+
+配套插件 `plainspoken-writing-dsh` 把白描接进 DeepSeek Harness：一个「白描写作」预设（默认只诊断，确认后改写）和三个工具（`plainspoken_analyze` / `plainspoken_rewrite` / `plainspoken_validate`）。本地开发版在 `../plainspoken-writing-dsh/`，构建、安装与设置见该目录的 README。
 
 ## 版本
 
