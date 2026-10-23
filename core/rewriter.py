@@ -60,9 +60,10 @@ def _pre_clean(text: str) -> tuple[str, list[str]]:
         if phrase in cleaned:
             cleaned = cleaned.replace(phrase, "")
             removed.append(phrase)
-    # 清理删除后可能残留的重复标点和多余空格
+    # 清理删除后可能残留的重复标点、前导标点和多余空格
     cleaned = re.sub(r"[，,]{2,}", "，", cleaned)
     cleaned = re.sub(r"。{2,}", "。", cleaned)
+    cleaned = re.sub(r"^[，,。；;、\s]+", "", cleaned)
     cleaned = re.sub(r" {2,}", " ", cleaned)
     cleaned = cleaned.strip()
     return cleaned, removed
