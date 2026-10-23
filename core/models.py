@@ -1,4 +1,4 @@
-"""数据模型 —— Say It Human 全系统的类型定义。"""
+"""数据模型 —— Plainspoken Writing 全系统的类型定义。"""
 
 from dataclasses import dataclass, field
 from enum import Enum
@@ -68,7 +68,7 @@ class AnchorType(Enum):
 
 class RewriteMode(Enum):
     """改写模式"""
-    AUTO = "auto"                    # 自动替换（say-it-human 默认）
+    AUTO = "auto"                    # 自动替换（plainspoken-writing 默认）
     QUESTION_DRIVEN = "question"     # 追问驱动（dbs 风格）
     HYBRID = "hybrid"                # 自动改写 + 关键特征追问
 

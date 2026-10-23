@@ -219,7 +219,7 @@ def print_report():
     corpus_results = run_corpus_analysis()
 
     print("=" * 60)
-    print("  Say It Human — v1.6.0 检测基线报告")
+    print("  Plainspoken Writing — v1.6.0 检测基线报告")
     print("=" * 60)
 
     print(f"\n## 单元测试：19 维检测精确性")

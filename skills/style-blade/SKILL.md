@@ -4,7 +4,7 @@ version: "1.1.0"
 description: |
   【L1.5 风格化写作】去完AI味之后，可选的有态度的写法。三种模式：棱角（有态度不圆滑）、锐利（短狠准，关键句放最后）、密度压缩（每个字都要承受重量）。不是去AI味，是主动注入个性。
   触发：写得犀利一点、来一段有态度的、有棱角、不圆滑、有攻击性、有立场、短句为主、压缩一下、砍掉废话、每句话删到不能再删。
-  Not for：去AI味（→ L1 humanize-ai）、删废话结构（→ L2 editor-revisor）、标题排版（→ L3 packaging-workshop）。
+  Not for：去AI味（→ L1 plainspoken-writing）、删废话结构（→ L2 editor-revisor）、标题排版（→ L3 packaging-workshop）。
 ---
 
 # 风格刃
@@ -80,7 +80,7 @@ description: |
 去完AI味之后可选风格注入，再删废话：
 
 ```
-humanize-ai（去AI味） → style-blade（风格注入，可选） → editor-revisor（删废话）
+plainspoken-writing（去AI味） → style-blade（风格注入，可选） → editor-revisor（删废话）
 ```
 
 典型用法：

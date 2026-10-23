@@ -106,7 +106,7 @@ description: |
 在去AI味和删废话之后、包装发布之前调用：
 
 ```
-humanize-ai（去AI味）→ editor-revisor（删废话）→ punct-polish（标点打磨）→ packaging-workshop（包装发布）
+plainspoken-writing（去AI味）→ editor-revisor（删废话）→ punct-polish（标点打磨）→ packaging-workshop（包装发布）
 ```
 
 ---

@@ -1,4 +1,4 @@
-"""测试语料生成器 —— 为 Say It Human 提供标注好的人工/ AI / 混合文本。"""
+"""测试语料生成器 —— 为 Plainspoken Writing 提供标注好的人工/ AI / 混合文本。"""
 
 import json
 import os

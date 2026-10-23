@@ -126,7 +126,7 @@ def test_voice_protection():
 
 if __name__ == "__main__":
     print("=" * 50)
-    print("  Say It Human — 集成测试")
+    print("  Plainspoken Writing — 集成测试")
     print("=" * 50)
 
     tests = [

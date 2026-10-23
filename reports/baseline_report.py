@@ -80,7 +80,7 @@ def save_report(report: dict):
 
     # 打印摘要
     print(f"\n{'='*50}")
-    print(f"  Say It Human v{report['version']} — 基线报告摘要")
+    print(f"  Plainspoken Writing v{report['version']} — 基线报告摘要")
     print(f"{'='*50}")
     print(f"  时间: {report['generated_at'][:19]}")
     print(f"  语料: {report['corpus_stats']['total']} 篇 "

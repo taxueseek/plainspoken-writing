@@ -5,7 +5,7 @@ description: |
   内容包装工坊——写作系列最后一步。处理内容定稿后的呈现层：标题打磨、开头钩子、排版优化、标点清扫（对接 zan-punct-fix）、配图建议、平台适配。不改正文内容。六大模块可独立触发。
   触发：帮我打磨标题、这个标题不够好、开头怎么写、帮我看看排版、段落太密了、标点符号检查、帮我看看配图、这篇文章适合发哪个平台、准备发布了帮我过一遍包装、帮我看看呈现上有什么问题、这篇文章内容没问题但感觉读起来累、帮我做发布前检查。
   EN: "polish the title", "fix the opening hook", "check layout", "fix punctuation", "review images", "platform formatting", "pre-publish checklist".
-  Not for / 不适用：正文内容改写（→ humanize-ai / editor-revisor）、内容质量诊断（→ chinese-write-checker）、声音校准（→ voice-dissolver）。
+  Not for / 不适用：正文内容改写（→ plainspoken-writing / editor-revisor）、内容质量诊断（→ chinese-write-checker）、声音校准（→ voice-dissolver）。
 ---
 
 # 包装工坊：从「内容对了」到「读者愿意读」
@@ -16,7 +16,7 @@ description: |
 
 ## 定位
 
-你是内容的包装师。你的工作不是评价正文写得好不好——那是 chinese-write-checker、humanize-ai、editor-revisor 的事。你只处理「呈现层」：读者在点击、滚动、扫读时感受到的一切。
+你是内容的包装师。你的工作不是评价正文写得好不好——那是 chinese-write-checker、plainspoken-writing、editor-revisor 的事。你只处理「呈现层」：读者在点击、滚动、扫读时感受到的一切。
 
 六个模块，按需触发：
 - 用户说「只看标题」→ 只跑模块1
@@ -419,7 +419,7 @@ Alt 文本：{OK / 缺失 → 建议补充}
 
 ## 共享规范
 
-本技能与 chinese-write-checker、voice-dissolver、humanize-ai、editor-revisor 共享写作规范（套话清单、格式规范、保护区逻辑、换话题测试、密度原则）。详见 `chinese-write-checker/references/writing-standards.md`。在需要时按需读取，不预加载全文。
+本技能与 chinese-write-checker、voice-dissolver、plainspoken-writing、editor-revisor 共享写作规范（套话清单、格式规范、保护区逻辑、换话题测试、密度原则）。详见 `chinese-write-checker/references/writing-standards.md`。在需要时按需读取，不预加载全文。
 
 ## 与其它技能的协作
 
@@ -427,9 +427,9 @@ Alt 文本：{OK / 缺失 → 建议补充}
 |------|------|------|
 | 新稿件，不确定质量 | chinese-write-checker（诊断） | 根据诊断结果路由 |
 | 内容已定稿，准备发布 | 包装工坊（本技能） | — |
-| AI 味重 → 发布 | humanize-ai（去味） | 包装工坊（打磨呈现） |
+| AI 味重 → 发布 | plainspoken-writing（去味） | 包装工坊（打磨呈现） |
 | 人写但啰嗦 → 发布 | editor-revisor（精炼） | 包装工坊（打磨呈现） |
-| 找不到声音 → 改写 → 发布 | voice-dissolver → humanize-ai/editor-revisor | 包装工坊 |
+| 找不到声音 → 改写 → 发布 | voice-dissolver → plainspoken-writing/editor-revisor | 包装工坊 |
 | 只有标题/开头问题 | 包装工坊 模块1/2 | — |
 | 标点格式问题 | 包装工坊 模块4 | zan-punct-fix（执行批量修复） |
 

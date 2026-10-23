@@ -1,8 +1,10 @@
 <p align="center">
-  <img src="./assets/readme/hero.svg" width="100%" alt="Say It Human：给一段文字，它先标出哪里像机器写的">
+  <img src="./assets/readme/hero.svg" width="100%" alt="Plainspoken Writing：给一段文字，它先标出哪里像机器写的">
 </p>
 
-# Say It Human
+# Plainspoken Writing
+
+**中文名「白描」，英文名 `plainspoken-writing`。** 原名 Say It Human。
 
 给一段文字。它先告诉你哪里像机器写的。要不要改，你自己说。
 
@@ -10,7 +12,9 @@
 
 ---
 
-## 如何安装 Say It Human
+## 如何安装 Plainspoken Writing
+
+> 项目已改名为 Plainspoken Writing；GitHub 仓库地址暂仍为 `taxueseek/say-it-human`，下面命令原样可用。远端改名后，把命令里的 `say-it-human` 换成 `plainspoken-writing` 即可。
 
 ### Claude Code
 
@@ -41,7 +45,7 @@ git clone https://github.com/taxueseek/say-it-human.git
 cp -r say-it-human/skills/* ~/.claude/skills/
 ```
 
-## 如何更新 Say It Human
+## 如何更新 Plainspoken Writing
 
 **Claude Code 插件市场安装的用户**
 
@@ -70,9 +74,9 @@ npx -y skills add taxueseek/say-it-human -g --all
 | 层 | Skill | 做什么 | 触发词 |
 |----|-------|--------|--------|
 | 跨层 | `voice-dissolver`（声音校准） | 写之前，先搞清「我想让读者感受到什么」。输出声音锚点卡，传给下游当保护区 | 不像我写的、找回自己的声音、文字里没有我 |
-| 跨层 | `humanize-core`（原理与正面目标） | 只问「AI 味从哪来、该往哪写」：重新定义、第一性原理、MECE 三层、四步打磨、直陈白描。不做检测，不做改写 | 为什么像AI、AI味的根源、去AI味方法论、写作原则、直陈白描 |
+| 跨层 | `plainspoken-core`（原理与正面目标） | 只问「AI 味从哪来、该往哪写」：重新定义、第一性原理、MECE 三层、四步打磨、直陈白描。不做检测，不做改写 | 为什么像AI、AI味的根源、去AI味方法论、写作原则、直陈白描 |
 | L0 | `chinese-write-checker`（内容体检） | 内容质量总入口。只问「有没有干货」：信息密度、逻辑链、立场清晰度。不改稿，只验收+路由 | 帮我看看写得怎么样、这篇能不能发、文章质量验收 |
-| L1 | `humanize-ai`（去 AI 味） | 只问「像不像真人」：25 维检测 + 浓度分级 + 改写。不处理结构，不检查内容质量 | AI味、像机器写的、太正式、读起来假、AI腔 |
+| L1 | `plainspoken-writing`（去 AI 味） | 只问「像不像真人」：25 维检测 + 浓度分级 + 改写。不处理结构，不检查内容质量 | AI味、像机器写的、太正式、读起来假、AI腔 |
 | L2 | `editor-revisor`（改稿手） | 只问「有没有废话」：删套话、砍程度虚词、打破虚假对仗、节奏调整 | 帮我改稿、废话太多、读起来不像我、润色 |
 | L3 | `packaging-workshop`（包装工坊） | 只问「读者读起来顺不顺」：标题打磨、开头钩子、排版、标点、配图、平台适配 | 帮我打磨标题、排版太密了、准备发布了帮我过一遍 |
 
@@ -87,9 +91,9 @@ npx -y skills add taxueseek/say-it-human -g --all
 ### 使用流程（MECE 分层）
 
 ```
-humanize-core（跨层 原理层：AI 味从哪来、该往哪写）→ 喂给 humanize-ai / content-refiner
+plainspoken-core（跨层 原理层：AI 味从哪来、该往哪写）→ 喂给 plainspoken-writing / content-refiner
 
-voice-dissolver  →  chinese-write-checker  →  humanize-ai  →  editor-revisor  →  packaging-workshop
+voice-dissolver  →  chinese-write-checker  →  plainspoken-writing  →  editor-revisor  →  packaging-workshop
   （跨层定声音）       （L0内容体检）             （L1去AI味）      （L2删废话）           （L3包装发布）
                        ↓
                   style-blade（L1.5 风格注入，可选）
@@ -155,7 +159,7 @@ AI写中文最常见的标点毛病一次性解决。
 
 ---
 
-## 去 AI 味（humanize-ai）
+## 去 AI 味（plainspoken-writing）
 
 **一句话**：去 AI 味不是让文字「更好看」，是让读者感觉到背后有一个真人在思考和创作。
 
@@ -293,7 +297,7 @@ AI写中文最常见的标点毛病一次性解决。
 ## 项目结构
 
 ```
-say-it-human/
+plainspoken-writing/
 ├── core/                          # 核心引擎（v1.6.0 新增）
 │   ├── __init__.py
 │   ├── detector.py                # 25 维 AI 味检测引擎
@@ -318,13 +322,13 @@ say-it-human/
 ├── skills/
 │   ├── voice-dissolver/           # [跨层] 声音校准
 │   │   └── SKILL.md
-│   ├── humanize-core/             # [跨层] 原理与正面目标
+│   ├── plainspoken-core/             # [跨层] 原理与正面目标
 │   │   ├── SKILL.md
 │   │   └── references/
 │   │       └── samples.md
 │   ├── chinese-write-checker/     # [L0] 内容体检
 │   │   └── SKILL.md
-│   ├── humanize-ai/               # [L1] 去 AI 味
+│   ├── plainspoken-writing/               # [L1] 去 AI 味
 │   │   └── SKILL.md
 │   ├── editor-revisor/            # [L2] 改稿手
 │   │   └── SKILL.md
@@ -357,7 +361,7 @@ say-it-human/
 ├── _archived/                   # 已吸纳的单技能归档（目录名统一英文）
 │   ├── edge-copy/                # → style-blade 棱角模式（原「棱角文案」）
 │   ├── Tech-Doc-Style-Chinese/   # → scene-fit 技术文档场景
-│   └── deai-legacy/              # → humanize-core（原「去AI味」）
+│   └── deai-legacy/              # → plainspoken-core（原「去AI味」）
 ├── README.md
 └── LICENSE
 ```
@@ -366,11 +370,11 @@ say-it-human/
 
 ## 知识库
 
-Say It Human 的方法论是完全开放的。你不需要安装整套 Skill 才能用——可以只拿走你需要的部分。
+Plainspoken Writing 的方法论是完全开放的。你不需要安装整套 Skill 才能用——可以只拿走你需要的部分。
 
 ### 场景 1：给你的 AI 加去 AI 味能力
 
-把 `skills/humanize-ai/SKILL.md` 的内容粘贴到你的 system prompt 里。你的 AI 就有了 25 维检测 + 六层架构改写能力。
+把 `skills/plainspoken-writing/SKILL.md` 的内容粘贴到你的 system prompt 里。你的 AI 就有了 25 维检测 + 六层架构改写能力。
 
 ### 场景 2：做内容审核工具
 
@@ -384,9 +388,14 @@ Say It Human 的方法论是完全开放的。你不需要安装整套 Skill 才
 
 ## 版本
 
-版本号以 `core/__init__.py` 的 `__version__` 为单一真源。当前 **v2.4.1**。
+版本号以 `core/__init__.py` 的 `__version__` 为单一真源。当前 **v2.5.0**。
 
 检测逻辑在 Python 引擎（`core/detector.py`、`core/concentration.py`、`core/validator.py`、`core/rewriter.py`），17 项单元测试通过，人工/AI 文本区分度 0.597（目标 > 0.3）。技能按文本属性分层，130 篇标注语料做回归。
+
+**v2.5.0**：更名为 Plainspoken Writing（白描）
+- 项目名与 L1 主 Skill 统一为 `plainspoken-writing`，原理层改为 `plainspoken-core`；中文名「白描」，主张「AI 爱工笔，人写白描」；
+- 引擎行为与 v2.4.1 一致，17 项测试全过，语料回归指标不变；
+- GitHub 仓库地址暂保留 `taxueseek/say-it-human`，远端改名后同步。
 
 **v2.4.1**：二元对立规则可测化
 - 修复检测层与验证层的贪婪正则把同一句式的相邻重复吞成一次的问题：检测层六个关键词模式与验证层五个判定模式改为非贪婪，重复句式逐次计数，两层判定对齐；
@@ -407,7 +416,7 @@ Say It Human 的方法论是完全开放的。你不需要安装整套 Skill 才
 
 **v2.2.0**：引擎修复 + 边界召回——正则关键词按元字符判定（修复「在.*背景下」等模式静默失效）、根因型出现即轻微标记、密度统计统一为滑窗出现次数、改写数字写法（「三次」→「3次」）不再误判编造、短营销文案体裁识别、追问库补齐 25/25 维、mixed 边界语料召回从 0 恢复；引擎内部开销降至约 1/3；SKILL.md 速查表与 references 去重。
 
-**v2.1.0**：新增 `humanize-core`（跨层原理层），吸收独立技能 `去AI味`，补齐家族缺的「正面目标」一层。原件归档在 `_archived/deai-legacy/`。
+**v2.1.0**：新增 `plainspoken-core`（跨层原理层），吸收独立技能 `去AI味`，补齐家族缺的「正面目标」一层。原件归档在 `_archived/deai-legacy/`。
 
 **v2.0.0**：新增三个子技能（风格刃、场景适配、标点打磨）。
 

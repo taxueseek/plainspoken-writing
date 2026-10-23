@@ -4,7 +4,7 @@ version: "1.5.0"
 description: |
   改稿手——帮人写的东西找到真话、删掉废话。侧重「结构紧缩+废话切除」：删套话开头、砍程度虚词、打破虚假对仗、清除口号收尾。有快刀模式（只删不改）和完整模式。接受任意稿件。可接收 voice-dissolver 声音清单作为保护区。
   触发：帮我改稿、帮我改一下、写得不好但不知道哪里不对、废话太多、读起来不像我、帮我润色、改通顺、精简一下、删废话、改得更像人写的、太啰嗦了。
-  Not for：AI味重但结构没问题（→ humanize-ai 去味）、内容体检（→ chinese-write-checker）、标题/排版/标点打磨（→ packaging-workshop）。
+  Not for：AI味重但结构没问题（→ plainspoken-writing 去味）、内容体检（→ chinese-write-checker）、标题/排版/标点打磨（→ packaging-workshop）。
 ---
 
 # 改稿手
@@ -266,4 +266,4 @@ description: |
 
 ## 共享规范
 
-本技能与 chinese-write-checker、voice-dissolver、humanize-ai、packaging-workshop 共享写作规范（套话清单、格式规范、保护区逻辑、换话题测试、密度原则）。详见 `chinese-write-checker/references/writing-standards.md`。在需要时按需读取，不预加载全文。
+本技能与 chinese-write-checker、voice-dissolver、plainspoken-writing、packaging-workshop 共享写作规范（套话清单、格式规范、保护区逻辑、换话题测试、密度原则）。详见 `chinese-write-checker/references/writing-standards.md`。在需要时按需读取，不预加载全文。

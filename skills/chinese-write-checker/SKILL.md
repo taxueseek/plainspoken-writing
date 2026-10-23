@@ -5,7 +5,7 @@ description: |
   中文内容质量验收工具，写作系列总入口（网关）。从编辑、读者、作者、平台四个视角对一篇中文稿件做全面体检（16 项），输出评分+问题清单+路由推荐。不改稿，只验收+路由。
   触发：帮我看看这篇写得怎么样、这篇有没有问题、检查一下这篇文章、这篇稿子合格吗、帮我审一遍、文章质量验收、中文写作诊断、这篇能不能发、稿子需要改什么、怎么改。
   EN: "review my Chinese article", "check this article quality", "Chinese writing diagnosis", "proofread this piece", "is this article good enough"。
-  Not for / 不适用：直接改写（→ humanize-ai / editor-revisor）、只改标题/排版/标点（→ packaging-workshop）、找不到自己声音（→ voice-dissolver）。
+  Not for / 不适用：直接改写（→ plainspoken-writing / editor-revisor）、只改标题/排版/标点（→ packaging-workshop）、找不到自己声音（→ voice-dissolver）。
 ---
 
 # chinese-write-checker：中文内容质量验收
@@ -23,7 +23,7 @@ description: |
 - **作者**：声音还在不在，套话有没有换壳残留，标点格式是否干净，配图是否协调
 - **平台**：是否符合目标平台的内容规范？字数、段落、语气是否匹配？
 
-不改稿。只出体检报告。如果用户看完报告问「那怎么改」，建议他用 humanize-ai、editor-revisor、voice-dissolver 或包装工坊。
+不改稿。只出体检报告。如果用户看完报告问「那怎么改」，建议他用 plainspoken-writing、editor-revisor、voice-dissolver 或包装工坊。
 
 ---
 
@@ -59,7 +59,7 @@ description: |
 
 ## 共享规范
 
-本技能与 voice-dissolver、humanize-ai、editor-revisor、packaging-workshop 共享以下规范（详见 `references/writing-standards.md`）：
+本技能与 voice-dissolver、plainspoken-writing、editor-revisor、packaging-workshop 共享以下规范（详见 `references/writing-standards.md`）：
 - 套话检测清单、格式规范、保护区判定逻辑、换话题测试、密度原则
 
 各技能在需要时按需引用，不预加载全文。

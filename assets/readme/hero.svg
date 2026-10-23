@@ -1,23 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
-  <title id="title">Say It Human</title>
-  <desc id="desc">给一段文字，它先标出哪里像机器写的。默认只检测不改。</desc>
+  <title id="title">Plainspoken Writing</title>
+  <desc id="desc">白描：给一段文字，先标出哪里像机器写的。默认只检测不改。</desc>
 
   <rect width="1200" height="360" rx="26" fill="#F3EEE4"/>
   <rect x="1" y="1" width="1198" height="358" rx="25" fill="none" stroke="#E2D8C8" stroke-width="1"/>
 
   <g id="title-block" transform="translate(56 52)">
-    <text x="0" y="16" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="#B42318" letter-spacing="2.4">WRITING TOOLKIT · DETECT FIRST</text>
-    <text x="0" y="78" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="48" font-weight="700" fill="#1C1814">Say It Human</text>
-    <text x="0" y="122" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="20" fill="#3F3832">给一段文字，它先标出哪里像机器写的</text>
+    <text x="0" y="16" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="#B42318" letter-spacing="2.4">PLAINSPOKEN WRITING · DETECT FIRST</text>
+    <text x="0" y="78" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="48" font-weight="700" fill="#1C1814">Plainspoken Writing</text>
+    <text x="0" y="122" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="20" fill="#3F3832">白描：给一段文字，先标出哪里像机器写的</text>
     <text x="0" y="156" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="16" fill="#6F675E">默认只检测不改。要不要动手，你说了算。</text>
 
     <g transform="translate(0 198)" font-family="ui-monospace, Menlo, monospace" font-size="12">
       <rect width="92" height="30" rx="6" fill="#1C1814"/>
-      <text x="46" y="20" text-anchor="middle" fill="#F3EEE4">v1.6.0</text>
+      <text x="46" y="20" text-anchor="middle" fill="#F3EEE4">v2.5.0</text>
       <rect x="104" width="118" height="30" rx="6" fill="#FFFCF7" stroke="#E2D8C8"/>
-      <text x="163" y="20" text-anchor="middle" fill="#B42318">19 维检测</text>
+      <text x="163" y="20" text-anchor="middle" fill="#B42318">25 维检测</text>
       <rect x="234" width="132" height="30" rx="6" fill="#FFFCF7" stroke="#E2D8C8"/>
-      <text x="300" y="20" text-anchor="middle" fill="#3F3832">5 skill 分层</text>
+      <text x="300" y="20" text-anchor="middle" fill="#3F3832">6 层架构</text>
     </g>
   </g>
 
@@ -35,7 +35,7 @@
 
     <rect x="28" y="168" width="452" height="1" fill="#EDE4D6"/>
     <text x="28" y="198" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#8A7F74">#12 RLHF 模板化</text>
-    <text x="28" y="222" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#8A7F74">#16 套话修饰</text>
+    <text x="28" y="222" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#8A7F74">#8 二元对立</text>
     <text x="28" y="246" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#B42318">改写：opt-in</text>
   </g>
 </svg>

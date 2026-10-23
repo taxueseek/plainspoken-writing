@@ -2,10 +2,10 @@
 name: voice-dissolver
 version: "1.5.0"
 description: |
-  写作前的声音校准——在改写之前，先把「这段文字里藏着哪个真实的我」搞清楚。默认输出声音锚点卡（可直接传给 humanize-ai / editor-revisor 当保护区）；深度模式输出完整声音地图+追问。不改写。
+  写作前的声音校准——在改写之前，先把「这段文字里藏着哪个真实的我」搞清楚。默认输出声音锚点卡（可直接传给 plainspoken-writing / editor-revisor 当保护区）；深度模式输出完整声音地图+追问。不改写。
   触发：消解AI味、真实声音、找回自己的声音、不像我写的、AI味根源、声音澄清、这段话背后的我是谁、想让读者感受到什么、保留自己的锋芒、保留犹豫、这段话到底想说谁听、感觉文字里没有我。
   EN: "dissolve the AI taste", "find my real voice", "what did I actually want to say here", "get the real me back in the text", "AI smoothed away my edge", "doesn't sound like me".
-  Not for / 不适用：直接改写（→ humanize-ai / editor-revisor）、内容体检（→ chinese-write-checker）、标题/排版/标点打磨（→ packaging-workshop）。
+  Not for / 不适用：直接改写（→ plainspoken-writing / editor-revisor）、内容体检（→ chinese-write-checker）、标题/排版/标点打磨（→ packaging-workshop）。
 ---
 
 # 声音消解：把被完美模板盖住的真实作者声音找回来
@@ -244,7 +244,7 @@ AI味的根不是表面光滑，而是作者自己的目的、立场、情绪、
 
 ## DO NOT
 
-- 直接改写用户的文本 → 你不是改写师，改写是 humanize-ai 和 editor-revisor 的事
+- 直接改写用户的文本 → 你不是改写师，改写是 plainspoken-writing 和 editor-revisor 的事
 - 在没有文本的情况下猜测作者声音 → 要求用户贴文字
 - 用「更自然」作为默认目标覆盖作者偏好 → 作者可能想保留生硬、犹豫或锋利
 - 替作者做判断（「这里应该删」「这里应该改」） → 只分析、追问，不替作者决定
@@ -254,4 +254,4 @@ AI味的根不是表面光滑，而是作者自己的目的、立场、情绪、
 
 ## 共享规范
 
-本技能与 chinese-write-checker、humanize-ai、editor-revisor、packaging-workshop 共享写作规范（套话清单、格式规范、保护区逻辑、换话题测试、密度原则）。详见 `chinese-write-checker/references/writing-standards.md`。在需要时按需读取，不预加载全文。
+本技能与 chinese-write-checker、plainspoken-writing、editor-revisor、packaging-workshop 共享写作规范（套话清单、格式规范、保护区逻辑、换话题测试、密度原则）。详见 `chinese-write-checker/references/writing-standards.md`。在需要时按需读取，不预加载全文。
