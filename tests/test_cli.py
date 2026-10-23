@@ -29,6 +29,15 @@ def test_cli_analyze_returns_concentration_and_dimensions():
     assert isinstance(out["dimensions"], list)
 
 
+def test_cli_analyze_top_limits_returned_dimensions():
+    out = _run("analyze", {
+        "text": "综上所述，在当今快速发展的AI领域，提示词工程已经成为一项至关重要的技能。值得注意的是，这很重要。",
+        "top": 1,
+    })
+    assert len(out["dimensions"]) <= 1
+    assert out["triggered_count"] >= 1
+
+
 def test_cli_rewrite_strips_filler_without_leading_punctuation():
     out = _run("rewrite", {
         "text": "值得注意的是，综上所述，这个方案很重要。",

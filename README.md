@@ -390,12 +390,12 @@ Plainspoken Writing 的方法论是完全开放的。你不需要安装整套 Sk
 
 版本号以 `core/__init__.py` 的 `__version__` 为单一真源。当前 **v2.5.0**。
 
-检测逻辑在 Python 引擎（`core/detector.py`、`core/concentration.py`、`core/validator.py`、`core/rewriter.py`），20 项单元测试通过，人工/AI 文本区分度 0.597（目标 > 0.3）。技能按文本属性分层，130 篇标注语料做回归。
+检测逻辑在 Python 引擎（`core/detector.py`、`core/concentration.py`、`core/validator.py`、`core/rewriter.py`），21 项单元测试通过，人工/AI 文本区分度 0.597（目标 > 0.3）。技能按文本属性分层，130 篇标注语料做回归。
 
 **v2.5.0**：更名为 Plainspoken Writing（白描）
 - 项目名与 L1 主 Skill 统一为 `plainspoken-writing`，原理层改为 `plainspoken-core`；中文名「白描」，主张「AI 爱工笔，人写白描」；
 - 新增 `cli.py` JSON 接口（analyze / rewrite / validate），供 DSH 插件与外部宿主调用；机械预清理修复前导标点残留；
-- 引擎行为与 v2.4.1 一致，新增 3 项 CLI 测试后 20 项测试全过，语料回归指标不变；
+- 引擎行为与 v2.4.1 一致，新增 4 项 CLI 测试后 21 项测试全过，语料回归指标不变；
 - GitHub 仓库地址暂保留 `taxueseek/say-it-human`，远端改名后同步。
 
 **v2.4.1**：二元对立规则可测化

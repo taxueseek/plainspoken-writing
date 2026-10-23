@@ -96,7 +96,11 @@ def _rewrite_payload(result) -> dict:
 
 def cmd_analyze(payload: dict) -> dict:
     text = payload.get("text", "")
-    return _analysis_payload(Detector().analyze(text))
+    result = _analysis_payload(Detector().analyze(text))
+    top = payload.get("top")
+    if isinstance(top, int) and 1 <= top <= 25:
+        result["dimensions"] = result["dimensions"][:top]
+    return result
 
 
 def cmd_rewrite(payload: dict) -> dict:
