@@ -1,6 +1,6 @@
 # Chinese Tech Doc Style
 
-本项目只是一份面向中文技术文档、产品文案与界面文案的写作 Skill。
+本项目是一份面向中文技术文档、产品文案与界面文案的写作 Skill，支持撰写、改写、校对和审阅。
 
 这份 Skill 的目标很明确：中文技术写作应更克制、更准确、更易读。不追求宣传感，也不试图把所有内容都写成统一模板，而是聚焦几类高频问题：
 
@@ -8,6 +8,7 @@
 - 中文与英文、数字混合排版时可读性差
 - 常见英文状态词和错误词容易被机械直译
 - 文档首页、解决方案页、接口说明页、FAQ 的信息密度和结构经常失衡
+- 操作说明中的术语、条件和动作不够明确，容易造成理解或执行偏差
 
 如果需要一套适合中文技术文档的基础写作规范，这份 Skill 可以直接拿来使用，或是作为参考。
 
@@ -17,10 +18,12 @@
 
 - 文档首页、落地页、首屏文案
 - 接口文档、参数说明、错误码说明、更新日志
+- 操作手册、安装与部署步骤、多步骤 API 调用流程
+- 故障排查、运维 Runbook、安全说明
 - 产品能力介绍、解决方案页、能力说明页
 - 界面文案、按钮文案、导航标签、提示信息
 
-不适合以下内容：
+文档中的以下内容保持原样，不应用文案改写和排版替换：
 
 - 代码字面量
 - JSON 键名
@@ -37,6 +40,7 @@
 - 中文引号统一使用直角引号 `「」`
 - 默认避免不必要的直接称呼，允许项目语气覆盖
 - 在可见正文中处理中文与英文、数字之间的留白
+- 中文段落在源文件中保持一段一行，不做硬换行
 - 避免机械直译 `Success`、`Invalid`、`Bad Request` 等英文状态词
 - 避免高频互联网黑话，如 `赋能`、`抓手`、`闭环`、`打通`
 - 对操作、排查和运维文档应用受控中文技术写作方法
@@ -45,6 +49,22 @@
 
 - [SKILL.md](./SKILL.md)
 - [公开说明稿](./NoCode-Skill.md)
+
+## 借鉴 STE 的技术写作方法
+
+本项目的[受控中文技术写作模块](./references/controlled-technical-chinese.md)借鉴 ASD-STE100（Simplified Technical English，简称 STE）的受控语言思路，通过一致的术语、明确的动作和清晰的逻辑顺序，减少技术说明中的歧义。
+
+模块将可迁移的方法适配到中文写作中：
+
+- 同一概念使用同一首选术语，不为避免重复而轮换同义词。
+- 一个步骤包含一个主要动作，多个有先后顺序的动作拆成编号步骤。
+- 执行前必须知道的条件和风险警告放在动作之前。
+- 明确执行者、操作对象和预期结果，区分人工操作与系统自动行为。
+- 保留原文事实、限制、例外和确定程度，不为简化表达而补造信息。
+
+这些方法主要用于操作手册、安装与部署、故障排查、运维文档、安全说明和多步骤 API 流程。概念说明和产品介绍可选择性采用术语一致、指代明确等规则，不把品牌文案、叙事文本、固定引用或短按钮文案机械改成操作步骤。
+
+STE 面向英文技术文档，其受控词典、词性、时态和句长规则不能直接套用于中文。本项目不是该标准的中文版本，也不承诺输出符合该标准；自动检查结果不代表 STE 合规。标准背景见 [ASD-STE100 官方说明](https://www.asd-ste100.org/about_STE.html)。
 
 ## 仓库结构
 
@@ -61,9 +81,12 @@ tech-doc-style-chinese/
 │   ├── project-overrides-example.md
 │   └── terminology-and-typography.md
 ├── scripts/
-│   └── lint_copy_rules.py
+│   ├── lint_copy_rules.py
+│   └── unwrap_md_paragraphs.py
 └── tests/
-    └── test_lint_copy_rules.py
+    ├── test_lint_copy_rules.py
+    ├── test_skill_structure.py
+    └── test_unwrap_md_paragraphs.py
 ```
 
 各文件的作用：
@@ -74,7 +97,8 @@ tech-doc-style-chinese/
 - `agents/openai.yaml`：技能展示元数据
 - `references/`：按任务读取的详细规则和项目覆盖模板
 - `scripts/lint_copy_rules.py`：轻量检查器
-- `tests/test_lint_copy_rules.py`：检查器回归测试
+- `scripts/unwrap_md_paragraphs.py`：展开段落硬换行的工具
+- `tests/`：检查器、技能结构和硬换行工具的回归测试
 
 ## 如何在 Codex 中使用
 
@@ -260,6 +284,42 @@ python -m unittest discover -s tests -v
 ```
 
 GitHub Actions 配置文件为 `.github/workflows/skill-lint.yml`，会在 `pull_request` 和 `main` 分支 `push` 时自动运行。
+
+## 展开段落硬换行
+
+为了控制源码行宽而在段落中间手动断行，会让源文件读起来很碎；中文与英文边界上的断行还会在部分渲染器里多出或吞掉空格。仓库提供一个零依赖脚本，把段落和列表项还原为「一段一行」，正文靠编辑器软换行阅读。
+
+检查是否存在硬换行，不改动文件：
+
+```bash
+python scripts/unwrap_md_paragraphs.py --check .
+```
+
+展开指定文件或目录，直接写回：
+
+```bash
+python scripts/unwrap_md_paragraphs.py docs/ README.md
+```
+
+只查看结果，不写回文件：
+
+```bash
+python scripts/unwrap_md_paragraphs.py --stdout docs/guide.md
+```
+
+拼接边界按中西文留白规则处理：中文与中文之间不加空格，中文与半角英文、数字之间加一个空格，全角标点两侧不加空格。
+
+脚本先扫描结构再拼接段落，因此以下内容按整块保留，不只保护起始行：front matter、围栏代码块（包括写在列表标记之后的 `- ```sh`）、缩进代码块（包括列表项内的缩进代码）、表格行、标题、分隔线、多行 HTML 块（`<pre>`、`<script>`、`<style>`、`<textarea>` 和注释）、链接引用定义、引用块，以及行尾两个空格或反斜杠表示的显式换行。
+
+需要整份文件跳过时，在代码块之外单独用一行写出标记：
+
+```markdown
+<!-- unwrap-disable-file -->
+```
+
+标记只在独立成行且不在代码块、HTML 块内时生效，因此上面这段代码示例不会让本文件免检。
+
+脚本只处理拼接边界，不修改段落内部已有的留白、标点和措辞。展开后仍需人工复查一遍边界留白和列表、表格结构。
 
 ## 发布建议
 

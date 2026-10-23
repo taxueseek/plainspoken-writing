@@ -347,11 +347,13 @@ plainspoken-writing/
 │   └── work.md
 ├── _archived/                   # 已吸纳的单技能归档（目录名统一英文）
 │   ├── edge-copy/                # → style-blade 棱角模式（原「棱角文案」）
-│   ├── Tech-Doc-Style-Chinese/   # → scene-fit 技术文档场景
+│   ├── Tech-Doc-Style-Chinese/   # 外部项目：Fenng，MIT；scene-fit 技术文档场景的参考，快照 b119d01
 │   └── deai-legacy/              # → plainspoken-core（原「去AI味」）
 ├── README.md
 └── LICENSE
 ```
+
+> `_archived/Tech-Doc-Style-Chinese/` 是 Fenng 的 MIT 项目快照，版权声明与许可随目录保留；`edge-copy` 与 `deai-legacy` 是本项目自有技能。
 
 ---
 

@@ -17,6 +17,27 @@ scan_markdown = LINTER["scan_markdown"]
 
 
 class CopyLintRulesTest(unittest.TestCase):
+    def test_multiline_inline_code_keeps_outside_diagnostics(self):
+        for code in ('`中文\n阀值`', '``中文 `\n阀值``'):
+            with self.subTest(code=code):
+                text = '说明 ' + code + '。阀值需要调整。'
+                findings = self.scan(text)
+                self.assertEqual(len(findings), 1)
+                self.assertEqual(findings[0].line, 2)
+                self.assertEqual(findings[0].col, text.splitlines()[1].rindex('阀值') + 1)
+
+    def test_unclosed_inline_code_does_not_hide_next_paragraph(self):
+        findings = self.scan('说明 `未闭合\n\n阀值`。')
+        self.assertEqual([(v.line, v.kind) for v in findings], [(3, 'typo')])
+
+    def test_indented_code_after_heading(self):
+        for heading in ('# 示例', '## 示例', '示例\n==='):
+            with self.subTest(heading=heading):
+                text = heading + '\n    阀值 = 1\n\n阀值需要调整。'
+                findings = self.scan(text)
+                self.assertEqual([(v.line, v.kind) for v in findings],
+                                 [(len(text.splitlines()), 'typo')])
+
     def scan(self, text: str):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "sample.md"
@@ -63,6 +84,99 @@ class CopyLintRulesTest(unittest.TestCase):
     def test_inline_ignore_marker(self):
         findings = self.scan("阀值 <!-- copy-lint-disable-line -->")
         self.assertEqual(findings, [])
+
+    def test_fence_content_does_not_change_containers(self):
+        for prefix in ("", "> "):
+            for delimiter in ("```", "~~~"):
+                with self.subTest(prefix=prefix, delimiter=delimiter):
+                    text = "\n".join(prefix + line for line in (
+                        delimiter + "text", "> 阀值", "- 阀值",
+                        delimiter, "阀值需要调整。",
+                    ))
+                    findings = self.scan(text)
+                    self.assertEqual([(v.line, v.kind) for v in findings], [(5, "typo")])
+
+    def test_list_fences_preserve_following_list_prose(self):
+        for marker, indent in (("- ", "    "), ("1. ", "    "), ("-   ", "    ")):
+            for prefix in ("", "> "):
+                with self.subTest(marker=marker, prefix=prefix):
+                    text = "\n".join(prefix + line for line in (
+                        marker + "示例：", "", indent + "```text",
+                        indent + "> 阀值", indent + "```", "",
+                        indent + "阀值需要调整。",
+                    ))
+                    findings = self.scan(text)
+                    self.assertEqual([(v.line, v.kind) for v in findings], [(7, "typo")])
+                    self.assertEqual(findings[0].col, len(prefix + indent) + 1)
+
+    def test_nested_list_and_indented_code(self):
+        text = "\n".join((
+            "- 外层", "  - 内层", "", "        阀值 = 1", "",
+            "    阀值需要调整。", "", "阀值需要调整。",
+        ))
+        findings = self.scan(text)
+        self.assertEqual([(v.line, v.kind) for v in findings], [(6, "typo"), (8, "typo")])
+
+    def test_list_fence_on_marker_line_and_container_exit(self):
+        for text, expected in (
+            ("- ```text\n  > 阀值\n  ```\n\n阀值", 5),
+            ("- ```text\n  阀值\n\n阀值", 4),
+        ):
+            findings = self.scan(text)
+            self.assertEqual([(v.line, v.kind) for v in findings], [(expected, "typo")])
+
+    def test_url_followed_by_chinese_punctuation_keeps_prose(self):
+        for punctuation in "。；，！？）」":
+            with self.subTest(punctuation=punctuation):
+                text = f"参见 https://example.com{punctuation}阀值需要调整。"
+                findings = self.scan(text)
+                self.assertEqual(len(findings), 1)
+                self.assertEqual(findings[0].kind, "typo")
+                self.assertEqual(findings[0].col, text.index("阀值") + 1)
+
+    def test_explicit_links_keep_punctuation_inside_destination(self):
+        for text in (
+            "[说明](https://example.com/中文，阀值)",
+            "<https://example.com/中文，阀值>",
+        ):
+            with self.subTest(text=text):
+                self.assertEqual(self.scan(text), [])
+
+    def test_quoted_fences_protect_code_but_not_following_prose(self):
+        for prefix in ("> ", "> > "):
+            text = "\n".join(prefix + line for line in (
+                "```text", '阀值 = "api"', "```", "阀值需要调整。"
+            ))
+            findings = self.scan(text)
+            self.assertEqual([(v.line, v.kind) for v in findings], [(4, "typo")])
+
+    def test_unclosed_quote_fence_does_not_hide_outside_prose(self):
+        findings = self.scan("> ```text\n> 阀值\n\n阀值需要调整。")
+        self.assertEqual([(v.line, v.kind) for v in findings], [(4, "typo")])
+
+    def test_indented_code_and_paragraph_continuation(self):
+        for indent in ("    ", "\t", ">     "):
+            with self.subTest(indent=indent):
+                findings = self.scan(f'{indent}阀值 = "api"\n\n阀值需要调整。')
+                self.assertEqual([(v.line, v.kind) for v in findings], [(3, "typo")])
+        findings = self.scan("普通段落\n    阀值需要调整。")
+        self.assertEqual([(v.line, v.kind) for v in findings], [(2, "typo")])
+
+    def test_fence_like_code_line_does_not_close_fence(self):
+        findings = self.scan("```text\n```not-a-close\n阀值\n```\n阀值")
+        self.assertEqual([(v.line, v.kind) for v in findings], [(5, "typo")])
+
+    def test_html_attributes_are_hidden_but_text_is_checked(self):
+        for text in (
+            '<a id="api" title="阀值 > 0">阀值</a>',
+            '<a\n id="api"\n title="阀值 > 0">阀值</a>',
+        ):
+            with self.subTest(text=text):
+                findings = self.scan(text)
+                self.assertEqual(len(findings), 1)
+                self.assertEqual(findings[0].kind, "typo")
+                last_line = text.splitlines()[-1]
+                self.assertEqual(findings[0].col, last_line.rindex("阀值") + 1)
 
     def test_context_warning_does_not_fail_default_cli(self):
         with tempfile.TemporaryDirectory() as directory:

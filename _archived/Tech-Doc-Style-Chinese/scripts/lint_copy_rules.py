@@ -22,9 +22,46 @@ DEFAULT_TARGETS = ["."]
 INLINE_IGNORE_MARKER = "<!-- copy-lint-disable-line -->"
 SKIP_DIR_NAMES = {".git", ".venv", "node_modules", "vendor"}
 
-FENCE_RE = re.compile(r"^\s*(`{3,}|~{3,})")
+FENCE_RE = re.compile(r"^ {0,3}(`{3,}|~{3,})(.*)$")
+QUOTE_PREFIX_RE = re.compile(r"^ {0,3}>[ \t]?")
+LIST_ITEM_RE = re.compile(r"^( *)(?:[-+*]|\d{1,9}[.)])([ \t]+)(.*)$")
+HTML_TAG_RE = re.compile(
+    r'''</?[A-Za-z][A-Za-z0-9:-]*(?=[\s/>])(?:[^<>"']|"[^"]*"|'[^']*')*>'''
+)
+AUTOLINK_RE = re.compile(r"<https?://[^<>\s]+>")
 INLINE_CODE_RE = re.compile(r"(`+)(.*?)\1")
-URL_RE = re.compile(r"https?://\S+")
+BLOCK_BOUNDARY_RE = re.compile(
+    r"(?m)^ *(?:$|#{1,6}(?:\s|$)|`{3,}|~{3,}|(?:[-*_] *){3,}$)"
+)
+
+
+def mask_code_spans(source: str) -> str:
+    """Mask exact backtick pairs without losing diagnostic coordinates."""
+    chars = list(source)
+    boundaries = [match.start() for match in BLOCK_BOUNDARY_RE.finditer(source)]
+    boundaries = sorted({0, len(source), *boundaries})
+    for start, end in zip(boundaries, boundaries[1:]):
+        runs = list(re.finditer(r"`+", source[start:end]))
+        index = 0
+        while index < len(runs):
+            opening = runs[index]
+            before = source[start:start + opening.start()]
+            if (len(before) - len(before.rstrip("\\"))) % 2:
+                index += 1
+                continue
+            closing_index = next((j for j in range(index + 1, len(runs))
+                                  if runs[j].group() == opening.group()), None)
+            if closing_index is None:
+                index += 1
+                continue
+            for pos in range(start + opening.start(), start + runs[closing_index].end()):
+                if chars[pos] not in "\r\n":
+                    chars[pos] = " "
+            index = closing_index + 1
+    return "".join(chars)
+
+
+URL_RE = re.compile(r'''https?://[^\s<>"'，。；：！？、（）「」『』【】]+''')
 API_PATH_RE = re.compile(
     r"(?<![A-Za-z0-9_])/[A-Za-z0-9._~%-]+"
     r"(?:/[A-Za-z0-9._~%-]+)*(?:\?[^\s)]*)?(?![A-Za-z0-9_])"
@@ -134,6 +171,7 @@ def mask_match(text: str, regex: re.Pattern[str]) -> str:
 
 def prepare_visible_line(line: str) -> str:
     visible = mask_match(line, INLINE_CODE_RE)
+    visible = mask_match(visible, AUTOLINK_RE)
     visible = INLINE_LINK_RE.sub(
         lambda match: (
             f"{match.group(1)}{' ' * len(match.group(2))}{match.group(3)}"
@@ -186,30 +224,115 @@ def add_rule_matches(
 def scan_markdown(path: Path) -> list[Violation]:
     violations: list[Violation] = []
     fence_delimiter: str | None = None
-    lines = path.read_text(encoding="utf-8").splitlines()
+    source = path.read_text(encoding="utf-8")
+    raw_lines = source.splitlines()
+    # Preserve line/column positions, including multiline HTML attributes.
+    source = HTML_TAG_RE.sub(
+        lambda match: re.sub(r"[^\r\n]", " ", match.group()), source
+    )
+    lines = mask_code_spans(source).splitlines()
     in_front_matter = bool(lines and lines[0].strip() == "---")
+    previous_depth = 0
+    paragraph_open = False
+    indented_code = False
+    list_indents: list[int] = []
+    fence_depth = 0
+    fence_indent = 0
 
-    for line_no, raw in enumerate(lines, start=1):
+    for line_no, content in enumerate(lines, start=1):
+        raw = raw_lines[line_no - 1]
+        # HTML masking must not turn a tag into apparent code indentation.
+        content = raw
         if in_front_matter:
             if line_no != 1 and raw.strip() in {"---", "..."}:
                 in_front_matter = False
             continue
 
-        fence_match = FENCE_RE.match(raw)
+        # Only consume the containers recorded at the opening fence. Symbols
+        # inside code (including > and list markers) are literal content.
+        if fence_delimiter is not None:
+            candidate = raw.expandtabs(4)
+            container_present = True
+            for _ in range(fence_depth):
+                prefix = QUOTE_PREFIX_RE.match(candidate)
+                if prefix is None:
+                    container_present = False
+                    break
+                candidate = candidate[prefix.end():]
+            if container_present and fence_indent:
+                if candidate.strip() and not candidate.startswith(" " * fence_indent):
+                    container_present = False
+                else:
+                    candidate = candidate[fence_indent:]
+            if container_present:
+                closing = FENCE_RE.match(candidate)
+                if (
+                    closing
+                    and closing.group(1)[0] == fence_delimiter[0]
+                    and len(closing.group(1)) >= len(fence_delimiter)
+                    and not closing.group(2).strip()
+                ):
+                    fence_delimiter = None
+                continue
+            fence_delimiter = None
+
+        content = raw.expandtabs(4)
+        depth = 0
+        while prefix := QUOTE_PREFIX_RE.match(content):
+            content = content[prefix.end():]
+            depth += 1
+        if depth != previous_depth:
+            paragraph_open = False
+            indented_code = False
+            list_indents.clear()
+        previous_depth = depth
+
+        if not content.strip():
+            paragraph_open = False
+            continue
+        indentation = len(content) - len(content.lstrip(" "))
+        while list_indents and indentation < list_indents[-1]:
+            list_indents.pop()
+            paragraph_open = False
+            indented_code = False
+        container_indent = list_indents[-1] if list_indents else 0
+        content = content[container_indent:]
+        item = LIST_ITEM_RE.match(content)
+        if item and len(item.group(1)) <= 3:
+            # Up to four padding spaces belong to a list marker. Greater
+            # padding leaves indentation that can start an indented code block.
+            padding = len(item.group(2))
+            marker_width = item.start(3) - (padding - 1 if padding > 4 else 0)
+            container_indent += marker_width
+            list_indents.append(container_indent)
+            content = content[marker_width:]
+            paragraph_open = False
+            indented_code = False
+
+        fence_match = FENCE_RE.match(content)
+        if content.startswith(("    ", "\t")) and (
+            indented_code or not paragraph_open
+        ):
+            indented_code = True
+            continue
+        indented_code = False
+
         if fence_match:
             delimiter = fence_match.group(1)
-            if fence_delimiter is None:
+            if delimiter[0] != "`" or "`" not in fence_match.group(2):
                 fence_delimiter = delimiter
-            elif delimiter[0] == fence_delimiter[0] and len(delimiter) >= len(
-                fence_delimiter
-            ):
-                fence_delimiter = None
+                fence_depth = depth
+                fence_indent = container_indent
+                paragraph_open = False
+                continue
+
+        paragraph_open = not bool(re.match(
+            r"^ {0,3}(?:#{1,6}(?:\s|$)|(?:[-*_] *){3,}$|=+\s*$)", content
+        ))
+        if INLINE_IGNORE_MARKER in raw:
             continue
 
-        if fence_delimiter is not None or INLINE_IGNORE_MARKER in raw:
-            continue
-
-        visible = prepare_visible_line(raw)
+        visible = prepare_visible_line(lines[line_no - 1])
 
         for quote, label in FORBIDDEN_QUOTES.items():
             for match in re.finditer(re.escape(quote), visible):
