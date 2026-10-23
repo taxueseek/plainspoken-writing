@@ -14,19 +14,19 @@
 
 ## 如何安装 Plainspoken Writing
 
-> 项目已改名为 Plainspoken Writing；GitHub 仓库地址暂仍为 `taxueseek/say-it-human`，下面命令原样可用。远端改名后，把命令里的 `say-it-human` 换成 `plainspoken-writing` 即可。
+> 仓库地址：`taxueseek/plainspoken-writing`。2026-10-23 由 `say-it-human` 改名，旧地址 GitHub 会自动跳转。
 
 ### Claude Code
 
 ```bash
-claude plugin marketplace add taxueseek/say-it-human
+claude plugin marketplace add taxueseek/plainspoken-writing
 claude plugin install say-it-human@taxueseek-skills
 ```
 
 ### 通用安装方式（适用于 Codex / Claude Code / Cursor）
 
 ```bash
-npx -y skills add taxueseek/say-it-human -g --all
+npx -y skills add taxueseek/plainspoken-writing -g --all
 ```
 
 ### 手动安装
@@ -41,8 +41,8 @@ npx -y skills add taxueseek/say-it-human -g --all
 ### Git 克隆
 
 ```bash
-git clone https://github.com/taxueseek/say-it-human.git
-cp -r say-it-human/skills/* ~/.claude/skills/
+git clone https://github.com/taxueseek/plainspoken-writing.git
+cp -r plainspoken-writing/skills/* ~/.claude/skills/
 ```
 
 ## 如何更新 Plainspoken Writing
@@ -60,7 +60,7 @@ claude plugin update say-it-human@taxueseek-skills
 重新运行一次同样的命令即可。安装和更新用的是同一条命令。
 
 ```bash
-npx -y skills add taxueseek/say-it-human -g --all
+npx -y skills add taxueseek/plainspoken-writing -g --all
 ```
 
 ---
@@ -402,7 +402,7 @@ Plainspoken Writing 的方法论是完全开放的。你不需要安装整套 Sk
 - 更名：Plainspoken Writing（白描），主 Skill `plainspoken-writing`，原理层 `plainspoken-core`；
 - 接口：`cli.py` JSON 接口（analyze / rewrite / validate），机械预清理修复前导标点残留；
 - DSH：配套 `plainspoken-writing-dsh` 插件，提供「白描写作」预设与三个白描工具；
-- GitHub 仓库地址暂保留 `taxueseek/say-it-human`，远端改名后同步。
+- GitHub 仓库已改名为 `taxueseek/plainspoken-writing`（旧地址自动跳转）。
 
 **v1.8.0**：公开仓库的 L1 Skill 版本（19 维检测，skills 文档层；当时 README 版本行仍停在 v1.6.0）。
 
