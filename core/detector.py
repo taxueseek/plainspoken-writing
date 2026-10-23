@@ -45,7 +45,7 @@ _BUILTIN_DIMENSIONS: list[dict] = [
     # 独立型
     {"id": 5,  "name": "lack_of_detail",           "keywords": ["某个用户","某公司","研究表明","大部分人","很多人","在某些时候"],                 "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
     {"id": 7,  "name": "over_amplification",       "keywords": ["历史性时刻","高光时刻","决定性瞬间","分水岭","里程碑","转折点","划时代","史诗级"], "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
-    {"id": 8,  "name": "negative_emotionalism",    "keywords": ["不仅仅","不只是","不是.*而是","更是一种","更是一份","不仅是.*更是","不单单是","不在于.*而在于","真正的.*是","与其说.*不如说"], "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
+    {"id": 8,  "name": "negative_emotionalism",    "keywords": ["不仅仅","不只是","不是.*?而是","更是一种","更是一份","不仅是.*?更是","不单单是","不在于.*?而在于","真正的.*?是","与其说.*?不如说"], "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
     {"id": 9,  "name": "false_scope",              "keywords": ["从.*到","涵盖了","多个领域","全方位","全链路","一站式"],                         "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
     {"id": 11, "name": "platform_cliche",          "keywords": ["姐妹们谁懂","绝绝子","挖到宝了","家人们","最后一条最重要","点赞收藏","你品你细品","泻药","人在美国"],               "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
     {"id": 15, "name": "flowery_rhetoric",         "keywords": ["如流星划过","如沐春风","醍醐灌顶","时不我待","只争朝夕","温暖了时光","惊艳了岁月"],                        "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
@@ -56,7 +56,7 @@ _BUILTIN_DIMENSIONS: list[dict] = [
     {"id": 20, "name": "block_all_objections",     "keywords": ["有人可能会说","有人会说","可能有人会质疑","也许有人会问","你可能会觉得"],        "weight": 0.8, "is_root_cause": False, "density": 3, "independent": True},
     {"id": 21, "name": "concept_naming_ritual",    "keywords": ["这就是","我称之为","这就叫","我把这叫做","可以称之为","本质上就是"],             "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
     {"id": 22, "name": "body_substitute_argument", "keywords": ["身体知道答案","直觉告诉你","你的身体比你更","内心会告诉你","相信你的直觉"],      "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
-    {"id": 23, "name": "deepness_overfit",         "keywords": ["本质上","归根结底","说到底","往深了说","从本质上讲","追根溯源","从底层逻辑来看","底层逻辑","与其说是.*不如说是","这绝非偶然","这背后折射出"], "weight": 0.8, "is_root_cause": False, "density": 3, "independent": True},
+    {"id": 23, "name": "deepness_overfit",         "keywords": ["本质上","归根结底","说到底","往深了说","从本质上讲","追根溯源","从底层逻辑来看","底层逻辑","与其说是.*?不如说是","这绝非偶然","这背后折射出"], "weight": 0.8, "is_root_cause": False, "density": 3, "independent": True},
     {"id": 24, "name": "synonym_forced_swap",      "keywords": [],                                                                                "weight": 0.8, "is_root_cause": False, "density": 3, "independent": True},
     # ── taxue 融合维度（结构型AI痕迹 + 纯度, v1.7.0 新增）──
     {"id": 25, "name": "formulaic_structure",       "keywords": ["总结","写在最后","希望对你有帮助","希望对各位","一句话总结","路虽远.*行则将至","让我们拭目以待","未来已来","让我们共同期待"], "weight": 0.8, "is_root_cause": False, "density": 2, "independent": True},
