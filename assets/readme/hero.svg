@@ -13,7 +13,7 @@
 
     <g transform="translate(0 198)" font-family="ui-monospace, Menlo, monospace" font-size="12">
       <rect width="92" height="30" rx="6" fill="#1C1814"/>
-      <text x="46" y="20" text-anchor="middle" fill="#F3EEE4">v2.5.0</text>
+      <text x="46" y="20" text-anchor="middle" fill="#F3EEE4">v1.9.0</text>
       <rect x="104" width="118" height="30" rx="6" fill="#FFFCF7" stroke="#E2D8C8"/>
       <text x="163" y="20" text-anchor="middle" fill="#B42318">25 维检测</text>
       <rect x="234" width="132" height="30" rx="6" fill="#FFFCF7" stroke="#E2D8C8"/>
