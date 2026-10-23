@@ -375,7 +375,7 @@ Plainspoken Writing 的方法论是完全开放的。你不需要安装整套 Sk
 
 ## DSH 插件
 
-配套插件 `plainspoken-writing-dsh` 把白描接进 DeepSeek Harness：一个「白描写作」预设（默认只诊断，确认后改写）和三个工具（`plainspoken_analyze` / `plainspoken_rewrite` / `plainspoken_validate`）。本地开发版在 `../plainspoken-writing-dsh/`，构建、安装与设置见该目录的 README。
+配套插件 [`plainspoken-writing-dsh`](https://github.com/taxueseek/plainspoken-writing-dsh) 把白描接进 DeepSeek Harness：一个「白描写作」预设（默认只诊断，确认后改写）和三个工具（`plainspoken_analyze` / `plainspoken_rewrite` / `plainspoken_validate`）。构建、安装与设置见该仓库 README。
 
 ## 版本
 
