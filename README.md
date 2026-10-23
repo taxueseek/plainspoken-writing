@@ -392,7 +392,7 @@ Plainspoken Writing 的方法论是完全开放的。你不需要安装整套 Sk
 
 ## 版本
 
-版本号以 `core/__init__.py` 的 `__version__` 为单一真源。当前 **v1.9.0**。项目、9 个 Skill 与 DSH 插件统一使用 1.9.0。
+版本号以 `core/__init__.py` 的 `__version__` 为单一真源。当前 **v1.9.0**。项目、全部 Skill 与 DSH 插件统一使用 1.9.0。
 
 检测逻辑在 Python 引擎（`core/detector.py`、`core/concentration.py`、`core/validator.py`、`core/rewriter.py`），21 项单元测试通过，人工/AI 文本区分度 0.597（目标 > 0.3）。技能按文本属性分层，130 篇标注语料做回归。
 
